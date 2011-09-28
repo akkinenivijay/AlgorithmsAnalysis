@@ -1,15 +1,11 @@
 package org.gsu.cs.client;
 
-import java.util.Random;
-
 import org.gsu.cs.sort.MedianOf3Quicksort;
 import org.gsu.cs.sort.QuickSort;
 import org.gsu.cs.sort.RandomQuickSort;
 import org.gsu.cs.util.SortUtil;
 
 public class BestQuickSortAnalysis {
-
-	private static Random random;
 
 	public BestQuickSortAnalysis() {
 		super();
@@ -20,14 +16,12 @@ public class BestQuickSortAnalysis {
 	 */
 	public static void main(String[] args) {
 
-		random = new Random();
-
 		int power = 1;
 		int size = 0;
 		int maxPower = 14;
-		int noOfLoops = 40;
+		int noOfLoops = 100;
 
-		while (power < maxPower) {
+		while (power <= maxPower) {
 
 			System.gc();
 			size = (int) Math.pow(2.0, power);
@@ -37,8 +31,8 @@ public class BestQuickSortAnalysis {
 			long averageMedianOf3QuickSortTime = 0;
 
 			for (int i = 0; i < noOfLoops; i++) {
-				int[] inputArray = SortUtil.generateRandomArray(size);
-				// int[] inputArray = worstCaseArrayForSize(size);
+				//int[] inputArray = SortUtil.generateRandomArray(size);
+				int[] inputArray = SortUtil.worstCaseArrayForSize(size);
 
 				averageQuickSortTime += performQuickSortTrialRuns(size,
 						inputArray, noOfLoops);

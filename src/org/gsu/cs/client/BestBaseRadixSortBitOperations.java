@@ -76,13 +76,12 @@ public class BestBaseRadixSortBitOperations {
 		long startTime = 0;
 		long endTime = 0;
 
-		BitOperationsRadixSort rs = new BitOperationsRadixSort();
 		System.gc();
 
 		// int[] radixSortInputArray = SortUtil.copyArray(inputArray, size);
 
 		startTime = System.nanoTime();
-		rs.performRadixSort(inputArray, base);
+		BitOperationsRadixSort.performRadixSort(inputArray, base);
 		endTime = System.nanoTime();
 
 		totalTimeForRadixSort += endTime - startTime;

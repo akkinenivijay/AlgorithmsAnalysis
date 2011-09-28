@@ -1,5 +1,6 @@
 package org.gsu.cs.runner;
-import org.gsu.cs.sort.RandomQuickSort;
+
+import org.gsu.cs.sort.QuickSort;
 
 public class QuickSortRunner {
 
@@ -10,10 +11,10 @@ public class QuickSortRunner {
 
 		int count = 0;
 
-		for (int arraySize = 1; arraySize < 10000; arraySize = arraySize + 20) {
+		for (int arraySize = 99999; arraySize < 100000; arraySize++) {
 
 			long totalTimeForSort = 0;
-			RandomQuickSort qs = new RandomQuickSort();
+			QuickSort qs = new QuickSort();
 
 			for (int i = 0; i < 5; i++) {
 
@@ -30,7 +31,7 @@ public class QuickSortRunner {
 				}
 
 			}
-			System.out.println(totalTimeForSort / count);
+			//System.out.println(totalTimeForSort / count);
 		}
 
 	}
