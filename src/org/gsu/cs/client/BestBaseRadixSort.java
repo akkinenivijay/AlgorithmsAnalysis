@@ -31,7 +31,7 @@ public class BestBaseRadixSort {
 			System.gc();
 			size = (int) Math.pow(2.0, power);
 
-			// running the raidx sort for bits of size base radix = 2^base
+			// running the raidx sort on different bases
 
 			for (int base = 2; base <= 200; base++) {
 
@@ -61,7 +61,7 @@ public class BestBaseRadixSort {
 	}
 
 	/**
-	 * Runs the radix sort with the ggiven input and returns the execution time
+	 * Runs the radix sort with the given input and returns the execution time
 	 * in nano seconds
 	 * 
 	 * @param size
