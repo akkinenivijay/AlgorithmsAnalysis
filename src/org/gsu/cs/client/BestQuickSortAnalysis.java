@@ -19,7 +19,7 @@ public class BestQuickSortAnalysis {
 		int power = 1;
 		int size = 0;
 		int maxPower = 14;
-		int noOfLoops = 100;
+		int noOfLoops = 20;
 
 		while (power <= maxPower) {
 
@@ -31,15 +31,18 @@ public class BestQuickSortAnalysis {
 			long averageMedianOf3QuickSortTime = 0;
 
 			for (int i = 0; i < noOfLoops; i++) {
-				//int[] inputArray = SortUtil.generateRandomArray(size);
+				// int[] inputArray = SortUtil.generateRandomArray(size);
 				int[] inputArray = SortUtil.worstCaseArrayForSize(size);
 
-				averageQuickSortTime += performQuickSortTrialRuns(size,
-						inputArray, noOfLoops);
-				averageRandomQuickSortTime += performRandomQuickSortTrialRuns(
-						size, inputArray, noOfLoops);
 				averageMedianOf3QuickSortTime += performMedianOf3QuickSortTrialRuns(
 						size, inputArray, noOfLoops);
+				System.gc();
+				averageQuickSortTime += performQuickSortTrialRuns(size,
+						inputArray, noOfLoops);
+				System.gc();
+				averageRandomQuickSortTime += performRandomQuickSortTrialRuns(
+						size, inputArray, noOfLoops);
+				System.gc();
 
 			}
 

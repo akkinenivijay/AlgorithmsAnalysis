@@ -4,7 +4,7 @@ import org.gsu.cs.sort.RadixSort;
 import org.gsu.cs.util.SortUtil;
 
 /**
- * Class to perform analysis on the best base for 2^2 to 2^32
+ * Class to perform analysis on the best base for 2 to 200
  * 
  * @author vijay
  * 
@@ -20,9 +20,9 @@ public class BestBaseRadixSort {
 	 */
 	public static void main(String[] args) {
 
-		int power = 10;
+		int power = 14;
 		int size = 0;
-		int maxPower = 11;
+		int maxPower = 15;
 		int noOfLoops = 20;
 
 		// Loop to calculate the size to power of 14
