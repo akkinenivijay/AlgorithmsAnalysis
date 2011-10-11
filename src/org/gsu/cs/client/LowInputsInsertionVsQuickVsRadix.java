@@ -16,9 +16,7 @@ public class LowInputsInsertionVsQuickVsRadix {
 	 */
 	public static void main(String[] args) {
 
-		int power = 1;
 		int size = 0;
-		int maxPower = 14;
 		int noOfLoops = 20;
 
 		for (size = 1; size < 257; size++) {
@@ -50,7 +48,7 @@ public class LowInputsInsertionVsQuickVsRadix {
 			System.out.println(size + "\t" + averageInsertionSortTime
 					/ noOfLoops + "\t" + averageQuickSortTime / noOfLoops
 					+ "\t" + averageRadixSortTime / noOfLoops);
-			power++;
+
 		}
 	}
 
@@ -58,13 +56,12 @@ public class LowInputsInsertionVsQuickVsRadix {
 		long totalTimeForRadixSort = 0;
 		long startTime = 0;
 		long endTime = 0;
-		BitOperationsRadixSort bs = new BitOperationsRadixSort();
 
 		// Copy the input array for each run
 		int[] quickSortInputArray = SortUtil.copyArray(inputArray, size);
 
 		startTime = System.nanoTime();
-		bs.performRadixSort(quickSortInputArray, 8);
+		BitOperationsRadixSort.performRadixSort(quickSortInputArray, 8);
 		endTime = System.nanoTime();
 
 		totalTimeForRadixSort += endTime - startTime;

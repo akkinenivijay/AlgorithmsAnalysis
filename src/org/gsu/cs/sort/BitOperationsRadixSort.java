@@ -14,9 +14,7 @@ public class BitOperationsRadixSort {
 	public static void main(String[] args) {
 		int[] inputArray = { 1123, 568, 2490, 10200, 786, 581 };
 
-		BitOperationsRadixSort rs = new BitOperationsRadixSort();
-
-		rs.performRadixSort(inputArray, 4);
+		BitOperationsRadixSort.performRadixSort(inputArray, 4);
 
 		for (int inp : inputArray) {
 			System.out.println(inp);
@@ -56,7 +54,8 @@ public class BitOperationsRadixSort {
 				countArray[i] += countArray[i - 1];
 			}
 
-			// Finally placing the elements in the output array by peforming mask
+			// Finally placing the elements in the output array by peforming
+			// mask
 			// and shifting
 			for (int p = length - 1; p >= 0; --p) {
 				int key = (a[p] & mask) >> rshift;

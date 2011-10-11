@@ -58,13 +58,12 @@ public class InsertionVsQuickVsRadix {
 		long totalTimeForRadixSort = 0;
 		long startTime = 0;
 		long endTime = 0;
-		BitOperationsRadixSort bs = new BitOperationsRadixSort();
 
 		// Copy the input array for each run
 		int[] quickSortInputArray = SortUtil.copyArray(inputArray, size);
 
 		startTime = System.nanoTime();
-		bs.performRadixSort(quickSortInputArray, 8);
+		BitOperationsRadixSort.performRadixSort(quickSortInputArray, 8);
 		endTime = System.nanoTime();
 
 		totalTimeForRadixSort += endTime - startTime;

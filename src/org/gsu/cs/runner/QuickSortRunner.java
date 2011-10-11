@@ -31,7 +31,7 @@ public class QuickSortRunner {
 				}
 
 			}
-			//System.out.println(totalTimeForSort / count);
+			System.out.println(totalTimeForSort / count);
 		}
 
 	}
