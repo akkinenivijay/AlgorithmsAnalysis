@@ -4,7 +4,7 @@ package org.gsu.cs.sort;
  * 
  * This Class performs counting sort which is a stable sort based on the keys
  * 
- * @author vijay
+ * @author vijay akkineni
  * 
  */
 public class CountingSort {
