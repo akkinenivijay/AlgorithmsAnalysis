@@ -3,6 +3,13 @@ package org.gsu.cs.graph.list;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * A Linked List implementation which can support generics
+ * 
+ * @author lokesh
+ * 
+ * @param <K>
+ */
 public class GenericLinkedList<K> implements Iterable<K> {
 
 	private int size = 0;
@@ -14,6 +21,11 @@ public class GenericLinkedList<K> implements Iterable<K> {
 		this.first = null;
 	}
 
+	/**
+	 * Adds a new item to the List
+	 * 
+	 * @param item
+	 */
 	public void add(K item) {
 
 		Node oldFirst = first;
@@ -24,6 +36,10 @@ public class GenericLinkedList<K> implements Iterable<K> {
 		size++;
 	}
 
+	/**
+	 * Returns a new iterator and throws UnSupportedOperationException when
+	 * there are no elements in the lsist
+	 */
 	@Override
 	public Iterator<K> iterator() {
 		if (first == null) {
@@ -37,6 +53,12 @@ public class GenericLinkedList<K> implements Iterable<K> {
 		return first == null;
 	}
 
+	/**
+	 * iterator implementation to iterate over GenericLinkedList
+	 * 
+	 * @author lokesh
+	 * 
+	 */
 	private class ListIterator implements Iterator<K> {
 		private Node current = null;
 
@@ -45,11 +67,18 @@ public class GenericLinkedList<K> implements Iterable<K> {
 			current = first;
 		}
 
+		/**
+		 * return true if current is not null
+		 */
 		@Override
 		public boolean hasNext() {
 			return current != null;
 		}
 
+		/**
+		 * returns the next elements in the list and throws
+		 * NoSuchElementException when the list is empty
+		 */
 		@Override
 		public K next() {
 			if (!hasNext())
@@ -59,6 +88,10 @@ public class GenericLinkedList<K> implements Iterable<K> {
 			return item;
 		}
 
+		/**
+		 * Remvoe operation is not supported as we dont want to remove any
+		 * elements in graph algorithms
+		 */
 		@Override
 		public void remove() {
 			throw new UnsupportedOperationException(
@@ -67,6 +100,12 @@ public class GenericLinkedList<K> implements Iterable<K> {
 		}
 	}
 
+	/**
+	 * Supporting class for the linked list
+	 * 
+	 * @author lokesh
+	 * 
+	 */
 	private class Node {
 		private K item;
 		private Node next = null;;

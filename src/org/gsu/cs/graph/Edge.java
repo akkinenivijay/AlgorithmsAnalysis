@@ -4,6 +4,8 @@
 package org.gsu.cs.graph;
 
 /**
+ * A class to represent Edge of the graph
+ * 
  * @author Vijay Akkineni
  * 
  */
@@ -25,6 +27,11 @@ public class Edge {
 		return from;
 	}
 
+	/**
+	 * The from vertex
+	 * 
+	 * @param from
+	 */
 	public void setFrom(int from) {
 		this.from = from;
 	}
@@ -33,6 +40,11 @@ public class Edge {
 		return to;
 	}
 
+	/**
+	 * The To vertex of the Edge
+	 * 
+	 * @param to
+	 */
 	public void setTo(int to) {
 		this.to = to;
 	}
@@ -41,6 +53,12 @@ public class Edge {
 		return capacity;
 	}
 
+	/**
+	 * Capacity field can also be used a weights for normal graph algorithms and
+	 * capacity is coined for network flow algorithms
+	 * 
+	 * @param capacity
+	 */
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
