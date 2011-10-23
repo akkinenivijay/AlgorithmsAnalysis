@@ -54,7 +54,6 @@ public class GenericLinkedList<K> implements Iterable<K> {
 		public K next() {
 			if (!hasNext())
 				throw new NoSuchElementException();
-			System.out.println(current);
 			K item = current.getItem();
 			current = current.getNext();
 			return item;
