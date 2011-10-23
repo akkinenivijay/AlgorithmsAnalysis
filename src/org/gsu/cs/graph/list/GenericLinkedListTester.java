@@ -3,6 +3,8 @@ package org.gsu.cs.graph.list;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.gsu.cs.graph.datatype.GenericLinkedList;
+
 public class GenericLinkedListTester {
 
 	/**

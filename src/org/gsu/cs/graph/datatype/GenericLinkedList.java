@@ -1,4 +1,4 @@
-package org.gsu.cs.graph.list;
+package org.gsu.cs.graph.datatype;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

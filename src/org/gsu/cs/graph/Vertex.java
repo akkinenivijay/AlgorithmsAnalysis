@@ -1,5 +1,7 @@
 package org.gsu.cs.graph;
 
+import org.gsu.cs.graph.util.Color;
+
 /**
  * Class to repesent Vertex of the Graph
  * 
