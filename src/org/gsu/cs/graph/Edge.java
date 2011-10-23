@@ -14,6 +14,7 @@ public class Edge {
 	private int from;
 	private int to;
 	private int capacity;
+	private int flow;
 
 	public Edge(int from, int to, int capacity) {
 		super();
@@ -73,7 +74,42 @@ public class Edge {
 	@Override
 	public String toString() {
 		return "Edge [from=" + from + ", to=" + to + ", capacity=" + capacity
-				+ "]";
+				+ ", flow=" + flow + "]";
+	}
+
+	public int other(int u) {
+		if (u == from)
+			return to;
+		else if (u == to)
+			return from;
+		else
+			throw new RuntimeException("Illegal endpoint");
+	}
+
+	public int getFlow() {
+		return flow;
+	}
+
+	public void setFlow(int flow) {
+		this.flow = flow;
+	}
+
+	public int residualCapacityTo(int vertex) {
+		if (vertex == from)
+			return flow;
+		else if (vertex == to)
+			return capacity - flow;
+		else
+			throw new RuntimeException("Illegal endpoint");
+	}
+
+	public void addResidualFlowTo(int vertex, int delta) {
+		if (vertex == from)
+			flow -= delta;
+		else if (vertex == to)
+			flow += delta;
+		else
+			throw new RuntimeException("Illegal endpoint");
 	}
 
 }

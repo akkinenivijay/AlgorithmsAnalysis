@@ -99,13 +99,15 @@ public class AdjacencyListGraph {
 	public String toString() {
 		String NEWLINE = System.getProperty("line.separator");
 		StringBuilder s = new StringBuilder();
-		s.append(vertices + " " + edges + NEWLINE);
+		s.append("vertices: " + vertices + " " + "Edges: " + edges + NEWLINE);
 		for (int v = 0; v < vertices; v++) {
 			s.append(v + ":  ");
-			for (Edge e : adjacencyList[v]) {
-				if (e.getTo() != v)
-					s.append(e + "  ");
+			for (Edge edge : adjacencyList[v]) {
+				if (edge.getTo() != v)
+					s.append(edge + "  ");
 			}
+
+			// System.out.println(adjacencyList[v].size());
 			s.append(NEWLINE);
 		}
 		return s.toString();
