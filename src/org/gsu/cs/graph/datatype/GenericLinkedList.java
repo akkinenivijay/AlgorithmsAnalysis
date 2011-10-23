@@ -137,4 +137,9 @@ public class GenericLinkedList<K> implements Iterable<K> {
 		return size;
 	}
 
+	@Override
+	public String toString() {
+		return "GenericLinkedList [size=" + size + ", first=" + first + "]";
+	}
+
 }

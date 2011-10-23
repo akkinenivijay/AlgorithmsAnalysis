@@ -15,6 +15,13 @@ public class Edge {
 	private int to;
 	private int capacity;
 
+	public Edge(int from, int to, int capacity) {
+		super();
+		this.from = from;
+		this.to = to;
+		this.capacity = capacity;
+	}
+
 	/**
 	 * @param args
 	 */
