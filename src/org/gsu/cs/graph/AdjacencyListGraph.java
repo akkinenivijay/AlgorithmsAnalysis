@@ -38,12 +38,29 @@ public class AdjacencyListGraph {
 			int u = random.nextInt(vertices);
 			int v = random.nextInt(vertices);
 
-			//System.out.println(u + " , " +v);
+			// System.out.println(u + " , " +v);
 
 			// cpacaity limit is set to 10
 			int capacity = random.nextInt(10);
 			addEdge(new Edge(u, v, capacity));
 		}
+	}
+
+	public AdjacencyListGraph(int vertices, int edges, String custom) {
+		this(vertices);
+		// Random random = new Random();
+		// for (int edge = 0; edge < 4; edge++) {
+		// int u = random.nextInt(vertices);
+		// int v = random.nextInt(vertices);
+		// int capacity = random.nextInt(10);
+		// addEdge(new Edge(u, v, capacity));
+		// }
+
+		addEdge(new Edge(0, 1, 3));
+		addEdge(new Edge(0, 2, 2));
+		addEdge(new Edge(1, 2, 3));
+		addEdge(new Edge(2, 3, 4));
+		addEdge(new Edge(1, 3, 2));
 	}
 
 	// Returns an adjacent list of a vertex
@@ -95,7 +112,7 @@ public class AdjacencyListGraph {
 	}
 
 	public static void main(String[] args) {
-		AdjacencyListGraph G = new AdjacencyListGraph(4, 6);
+		AdjacencyListGraph G = new AdjacencyListGraph(4, 6, "");
 		System.out.println(G);
 	}
 
