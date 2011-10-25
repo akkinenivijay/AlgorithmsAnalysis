@@ -21,29 +21,57 @@ public class EdmondKarps {
 	private double value;
 
 	/**
-	 * Main method to start the Ford Fulkerson algorithm
+	 * Main method to start the EdmondKarp Algorithm which is a variation of
+	 * Fulkerson algorithm and uses Breadth First Search to find the augmenting
+	 * paths.
+	 * 
+	 * Please uncomment the printFlowOnEdges Method to check the flow in the
+	 * graph network
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int vertices = 100;
-		int edges = 4000;
-		int capacity = 1000;
-		AdjacencyListGraph G = new AdjacencyListGraph(vertices, edges, capacity);
-		// System.out.println(G);
-		EdmondKarps ff = new EdmondKarps();
-		ff.execute(G, 0, vertices - 1);
-		System.out.println("Max flow from " + 0 + " to " + 3);
+		// int vertices = 100;
 
+		for (int vertices = 10; vertices < 1000; vertices = vertices + 50) {
+
+			int edges = ((vertices) * (vertices - 1) / 2);
+			int capacity = 1000;
+
+			AdjacencyListGraph G = new AdjacencyListGraph(vertices, edges,
+					capacity);
+
+			EdmondKarps ff = new EdmondKarps();
+
+			// Capturing Start time of the algorithm
+			long startTime = System.nanoTime();
+			ff.execute(G, 0, vertices - 1);
+			// Endtime of the algorith
+			long endTime = System.nanoTime();
+
+			System.out.println(vertices + "\t" + (endTime - startTime));
+
+			System.gc();
+		}
+
+		// printFlowOnEdges(G);
+		// System.out.println("Max flow from " + 0 + " to " + vertices + " is: "
+		// + ff.value);
+	}
+
+	/**
+	 * Utility method to print the flows in the network after executing the
+	 * algorithm
+	 * 
+	 * @param G
+	 */
+	private static void printFlowOnEdges(AdjacencyListGraph G) {
 		for (int v = 0; v < G.getVertices(); v++) {
 			for (Edge e : G.adjacentList(v)) {
 				if ((v == e.getFrom()) && e.getFlow() > 0)
 					System.out.println("   " + e);
 			}
 		}
-
-		System.out.println("Max flow value = " + ff.value);
-
 	}
 
 	/**

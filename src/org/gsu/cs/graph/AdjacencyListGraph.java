@@ -57,7 +57,7 @@ public class AdjacencyListGraph {
 			int u = random.nextInt(vertices);
 			int v = random.nextInt(vertices);
 
-			System.out.println(u + " , " + v);
+			// System.out.println(u + " , " + v);
 
 			// cpacaity limit is set to 10
 			capacity = random.nextInt(1000);
@@ -140,7 +140,7 @@ public class AdjacencyListGraph {
 	}
 
 	public static void main(String[] args) {
-		AdjacencyListGraph G = new AdjacencyListGraph(4, 6, "");
+		AdjacencyListGraph G = new AdjacencyListGraph(100, 4000, 1000);
 		System.out.println(G);
 	}
 
