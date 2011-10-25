@@ -31,29 +31,55 @@ public class EdmondKarps {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// int vertices = 100;
 
-		for (int vertices = 10; vertices < 1000; vertices = vertices + 50) {
+		int power = 4;
+		int vertices = 0;
+		int maxPower = 9;
+		int capacity = 1000;
+
+		while (power < maxPower) {
+			vertices = (int) Math.pow(2.0, power);
 
 			int edges = ((vertices) * (vertices - 1) / 2);
-			int capacity = 1000;
 
-			AdjacencyListGraph G = new AdjacencyListGraph(vertices, edges,
-					capacity);
+			// For a particular number of vertices n the algorithm runs for
+			// varying number of edges for n,2n,4n,8n,16n .. n(n-1)/2
+			// Tried to use the above logic but since my program is to find
+			// maximum flow in a flow network I am getting not feasible
+			// exceptions from the graph if there is no connecting node form the
+			// source to sink
+			long totalTime = 0;
+			// while (edges <= ((vertices) * (vertices - 1) / 2)) {
 
-			EdmondKarps ff = new EdmondKarps();
+			// //For each combination of n (num of vertices) and m (num of
+			// edges) run the algorithm for 5 times generating random graphs
+			// and
+			// //taking the average of the execution time
+			for (int repeat = 0; repeat < 5; repeat++) {
 
-			// Capturing Start time of the algorithm
-			long startTime = System.nanoTime();
-			ff.execute(G, 0, vertices - 1);
-			// Endtime of the algorith
-			long endTime = System.nanoTime();
+				AdjacencyListGraph G = new AdjacencyListGraph(vertices, edges,
+						capacity);
 
-			System.out.println(vertices + "\t" + (endTime - startTime));
+				EdmondKarps ek = new EdmondKarps();
 
+				// Capturing Start time of the algorithm
+				long startTime = System.nanoTime();
+
+				ek.execute(G, 0, vertices - 1);
+
+				// Endtime of the algorithm
+				long endTime = System.nanoTime();
+
+				totalTime = totalTime + (endTime - startTime);
+			}
+
+			System.out.println(vertices + "\t" + (totalTime) / 5);
+			// Run garbage collection after the benchmarking is complete
 			System.gc();
+			edges = 2 * edges;
+			// }
+			power++;
 		}
-
 		// printFlowOnEdges(G);
 		// System.out.println("Max flow from " + 0 + " to " + vertices + " is: "
 		// + ff.value);
