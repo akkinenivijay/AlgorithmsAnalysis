@@ -5,6 +5,12 @@ import java.util.NoSuchElementException;
 
 import org.gsu.cs.graph.datatype.GenericLinkedList;
 
+/**
+ * Test stub to test linkedlist implementations
+ * 
+ * @author Vijay Akkineni
+ * 
+ */
 public class GenericLinkedListTester {
 
 	/**

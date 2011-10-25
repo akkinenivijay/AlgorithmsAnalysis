@@ -4,12 +4,23 @@ import java.util.Random;
 
 import org.gsu.cs.graph.datatype.GenericLinkedList;
 
+/**
+ * Graph Representation with a Adjacency List Data Structure
+ * 
+ * @author Vijay Akkineni
+ * 
+ */
 public class AdjacencyListGraph {
 
 	private int vertices;
 	private int edges = 0;
 	private GenericLinkedList<Edge>[] adjacencyList;
 
+	/**
+	 * Basic constructor
+	 * 
+	 * @param vertices
+	 */
 	public AdjacencyListGraph(int vertices) {
 		super();
 		this.vertices = vertices;
@@ -17,6 +28,10 @@ public class AdjacencyListGraph {
 	}
 
 	@SuppressWarnings("unchecked")
+	/**
+	 * To initlize the adjacency list
+	 * @param vertices
+	 */
 	private void initializeAdjacencyList(int vertices) {
 		adjacencyList = (GenericLinkedList<Edge>[]) new GenericLinkedList[vertices];
 		for (int vertex = 0; vertex < vertices; vertex++) {
@@ -29,33 +44,36 @@ public class AdjacencyListGraph {
 	 * Random graph with vertices and Edges as integer input
 	 * 
 	 * @param vertices
+	 *            Number of Vertices
 	 * @param edges
+	 *            Number of Edges
+	 * @param capacity
+	 *            Max Flow capacity
 	 */
-	public AdjacencyListGraph(int vertices, int edges) {
+	public AdjacencyListGraph(int vertices, int edges, int capacity) {
 		this(vertices);
 		Random random = new Random();
 		for (int edge = 0; edge < edges; edge++) {
 			int u = random.nextInt(vertices);
 			int v = random.nextInt(vertices);
 
-			// System.out.println(u + " , " +v);
+			System.out.println(u + " , " + v);
 
 			// cpacaity limit is set to 10
-			int capacity = random.nextInt(10);
+			capacity = random.nextInt(1000);
 			addEdge(new Edge(u, v, capacity));
 		}
 	}
 
+	/**
+	 * Constructor for test graph to test the programs.
+	 * 
+	 * @param vertices
+	 * @param edges
+	 * @param custom
+	 */
 	public AdjacencyListGraph(int vertices, int edges, String custom) {
 		this(vertices);
-		// Random random = new Random();
-		// for (int edge = 0; edge < 4; edge++) {
-		// int u = random.nextInt(vertices);
-		// int v = random.nextInt(vertices);
-		// int capacity = random.nextInt(10);
-		// addEdge(new Edge(u, v, capacity));
-		// }
-
 		addEdge(new Edge(0, 1, 3));
 		addEdge(new Edge(0, 2, 2));
 		addEdge(new Edge(1, 2, 3));
@@ -63,7 +81,12 @@ public class AdjacencyListGraph {
 		addEdge(new Edge(1, 3, 2));
 	}
 
-	// Returns an adjacent list of a vertex
+	/**
+	 * Returns an adjacent list of a vertex
+	 * 
+	 * @param vertex
+	 * @return
+	 */
 	public Iterable<Edge> adjacentList(int vertex) {
 		return adjacencyList[vertex];
 	}
@@ -96,6 +119,9 @@ public class AdjacencyListGraph {
 	// }
 
 	@Override
+	/**
+	 * Provides a graph representation to String this is for testing purposes 
+	 */
 	public String toString() {
 		String NEWLINE = System.getProperty("line.separator");
 		StringBuilder s = new StringBuilder();

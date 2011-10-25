@@ -6,9 +6,11 @@ import java.util.NoSuchElementException;
 /**
  * A Linked List implementation which can support generics
  * 
- * @author lokesh
+ * @author Vijay Akkineni
  * 
  * @param <K>
+ *            Any Object can be passed as inputs as this is a generic place
+ *            holder for types
  */
 public class GenericLinkedList<K> implements Iterable<K> {
 
