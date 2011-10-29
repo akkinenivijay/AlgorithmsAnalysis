@@ -11,8 +11,13 @@ package org.gsu.cs.graph;
  */
 public class Edge {
 
+	public Edge() {
+		super();
+	}
+
 	private int from;
 	private int to;
+	private int weight;
 	private int capacity;
 	private int flow;
 
@@ -73,8 +78,8 @@ public class Edge {
 
 	@Override
 	public String toString() {
-		return "Edge [from=" + from + ", to=" + to + ", capacity=" + capacity
-				+ ", flow=" + flow + "]";
+		return "Edge [from=" + from + ", to=" + to + ", weight=" + weight
+				+ ", capacity=" + capacity + ", flow=" + flow + "]";
 	}
 
 	public int other(int u) {
@@ -110,6 +115,14 @@ public class Edge {
 			flow += delta;
 		else
 			throw new RuntimeException("Illegal endpoint");
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 
 }
