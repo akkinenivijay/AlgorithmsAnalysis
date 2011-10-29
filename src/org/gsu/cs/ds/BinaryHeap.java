@@ -12,89 +12,65 @@ public class BinaryHeap<K> {
 		int l = left(i);
 		int r = right(i);
 
-		if (l < heapSize
-				&& (comparator.compare(inputArray[l], inputArray[i]) == -1)) {
+		if (l < heapSize && (comparator.compare(data[l], data[i]) == -1)) {
 			smallest = l;
 		} else {
 			smallest = i;
 		}
 
-		if (r < heapSize
-				&& (comparator.compare(inputArray[r], inputArray[smallest]) == -1)) {
+		if (r < heapSize && (comparator.compare(data[r], data[smallest]) == -1)) {
 			smallest = r;
 		}
 
 		if (smallest != i) {
-			K temp = inputArray[i];
-			inputArray[i] = inputArray[smallest];
-			inputArray[smallest] = temp;
+			K temp = data[i];
+			data[i] = data[smallest];
+			data[smallest] = temp;
 			minHeapify(smallest);
 		}
 	}
 
 	public void buildHeap() {
-		this.heapSize = inputArray.length;
-		for (int i = inputArray.length / 2; i >= 0; i--) {
+		this.heapSize = data.length;
+		for (int i = data.length / 2; i >= 0; i--) {
 			minHeapify(i);
 		}
 	}
 
-	public K retrieveAndDeleteMin() throws Exception {
+	public K retrieveAndDeleteMin() {
 
-		if (inputArray == null || inputArray.length == 0)
-			throw new Exception("Heap is empty");
-		else {
-			if (heapSize > 0) {
-				K result = inputArray[0];
-				inputArray[0] = inputArray[heapSize - 1];
-				heapSize--;
-				if (heapSize > 0)
-					minHeapify(0);
-				return result;
-			} else {
-				throw new Exception("Heap is Emptied");
-			}
+		if (data == null || heapSize == 0)
+			System.out.println("Heap is empty");
+
+		if (heapSize > 0) {
+			K result = data[0];
+			data[0] = data[heapSize - 1];
+			heapSize--;
+			if (heapSize > 0)
+				minHeapify(0);
+			return result;
+		}
+
+		return null;
+	}
+
+	public void insertIntoHeap(K element) {
+
+		if (heapSize < heapCapacity) {
+			data[heapSize] = element;
+			this.heapSize++;
+			minHeapify(heapSize);
+		} else {
+			System.out.println("Heap Size cannot exceed capacity");
 		}
 	}
 
-	public static void main(String[] args) {
-
-		int i = 0;
-
-		int[] input = { 23, 17, 14, 6, 13, 10, 1, 5, 7, 12 };
-		Edge[] edgeArray = new Edge[input.length];
-
-		for (int weight : input) {
-			Edge e = new Edge();
-			e.setWeight(weight);
-			edgeArray[i] = e;
-			i++;
+	public void printData() {
+		for (K element : data) {
+			System.out.print(element + " ");
 		}
-
-		BinaryHeap<Edge> bh = new BinaryHeap<Edge>(edgeArray,
-				new EdgeComparator());
-		bh.buildHeap();
-		try {
-			for (int i1 = 0; i1 <= input.length; i1++) {
-				Edge e = (Edge) bh.retrieveAndDeleteMin();
-				System.out.println("Min Wieghted Edge from the graph is: "
-						+ e.getWeight());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		System.out.println();
 	}
-
-	public BinaryHeap(K[] inputArray, Comparator<K> comparator) {
-		super();
-		this.inputArray = inputArray;
-		this.comparator = comparator;
-	}
-
-	private int heapSize;
-	private K[] inputArray;
-	private Comparator<K> comparator;
 
 	private int left(int i) {
 		return 2 * i + 1;
@@ -108,15 +84,45 @@ public class BinaryHeap<K> {
 		return i / 2;
 	}
 
-	public int getHeapSize() {
-		return heapSize;
+	private int heapSize = 0;
+	private int heapCapacity = 0;
+	private K[] data;
+	private Comparator<K> comparator;
+
+	public BinaryHeap(int capacity) {
+		super();
+		this.heapCapacity = capacity;
+		this.data = (K[]) new Object[heapCapacity];
 	}
 
-	public void setHeapSize(int heapSize) {
-		this.heapSize = heapSize;
+	public void setComparator(Comparator<K> comparator) {
+		this.comparator = comparator;
 	}
 
-	public K[] getInputArray() {
-		return inputArray;
+	public static void main(String[] args) {
+
+		BinaryHeap<Edge> bh = null;
+		try {
+			bh = new BinaryHeap<Edge>(10);
+			bh.setComparator(new EdgeComparator());
+
+			int[] input = { 23, 17, 14, 6, 13, 10, 1, 5, 7, 12 };
+
+			for (int weight : input) {
+				Edge edge = new Edge();
+				edge.setWeight(weight);
+				bh.insertIntoHeap(edge);
+			}
+
+			bh.buildHeap();
+
+			for (int i1 = 0; i1 < input.length; i1++) {
+				Edge e = (Edge) bh.retrieveAndDeleteMin();
+				System.out.print(e.getWeight() + " ");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }
