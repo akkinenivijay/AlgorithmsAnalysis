@@ -5,8 +5,22 @@ import java.util.Comparator;
 import org.gsu.cs.graph.Edge;
 import org.gsu.cs.graph.util.EdgeComparator;
 
+/**
+ * A generic class to build Binary Heap, This class is an implementation of Min
+ * Heap
+ * 
+ * @author Vijay Akkineni
+ * 
+ * @param <K>
+ */
 public class BinaryHeap<K> {
 
+	/**
+	 * Method to Min - Heapify the underlying data
+	 * 
+	 * @param i
+	 *            index from which to maintain the min property
+	 */
 	public void minHeapify(int i) {
 		int smallest;
 		int l = left(i);
@@ -30,6 +44,10 @@ public class BinaryHeap<K> {
 		}
 	}
 
+	/**
+	 * If the elements are not inserted using the InsertIntoHEap Method build
+	 * heap method builds the heap maintaining the heap property
+	 */
 	public void buildHeap() {
 		this.heapSize = data.length;
 		for (int i = data.length / 2; i >= 0; i--) {
@@ -37,6 +55,12 @@ public class BinaryHeap<K> {
 		}
 	}
 
+	/**
+	 * Method to retrieve the minimum value from the heap and build the heap
+	 * again
+	 * 
+	 * @return
+	 */
 	public K retrieveAndDeleteMin() {
 
 		if (data == null || heapSize == 0)
@@ -54,6 +78,12 @@ public class BinaryHeap<K> {
 		return null;
 	}
 
+	/**
+	 * Method to insert elements into heap maintaining the heap property
+	 * throughout
+	 * 
+	 * @param element
+	 */
 	public void insertIntoHeap(K element) {
 
 		if (heapSize < heapCapacity) {
@@ -65,6 +95,12 @@ public class BinaryHeap<K> {
 		}
 	}
 
+	/**
+	 * Method shifts the inserted element to the parent after checking for the
+	 * min condition
+	 * 
+	 * @param nodeIndex
+	 */
 	private void preserveHeapProperty(int nodeIndex) {
 		int parentIndex;
 		if (nodeIndex != 0) {
@@ -78,6 +114,9 @@ public class BinaryHeap<K> {
 		}
 	}
 
+	/**
+	 * Utility method to print data in Binary Heap
+	 */
 	public void printData() {
 		for (K element : data) {
 			if (element instanceof Edge) {
@@ -91,21 +130,54 @@ public class BinaryHeap<K> {
 		System.out.println();
 	}
 
+	/**
+	 * Returns the left child of the index
+	 * 
+	 * @param i
+	 * @return
+	 */
 	private int left(int i) {
 		return 2 * i + 1;
 	}
 
+	/**
+	 * Returns the right child of the index
+	 * 
+	 * @param i
+	 * @return
+	 */
 	private int right(int i) {
 		return (2 * i) + 2;
 	}
 
+	/**
+	 * Returns the parent of the index
+	 * 
+	 * @param i
+	 * @return
+	 */
 	private int parent(int i) {
 		return i / 2;
 	}
 
+	/**
+	 * The current size of the heap
+	 */
 	private int heapSize = 0;
+
+	/**
+	 * Max Capacity of the Heap
+	 */
 	private int heapCapacity = 0;
+
+	/**
+	 * Input Data
+	 */
 	private K[] data;
+
+	/**
+	 * Comparator used to compare elements
+	 */
 	private Comparator<K> comparator;
 
 	@SuppressWarnings("unchecked")
@@ -133,8 +205,9 @@ public class BinaryHeap<K> {
 				edge.setWeight(weight);
 				bh.insertIntoHeap(edge);
 			}
+			
 			bh.printData();
-			//bh.buildHeap();
+			// bh.buildHeap();
 
 			for (int i1 = 0; i1 < input.length; i1++) {
 				Edge e = (Edge) bh.retrieveAndDeleteMin();
