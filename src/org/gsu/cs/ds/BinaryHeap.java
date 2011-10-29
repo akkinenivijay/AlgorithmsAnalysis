@@ -80,15 +80,16 @@ public class BinaryHeap<K> {
 		return (2 * i) + 2;
 	}
 
-	private int parent(int i) {
-		return i / 2;
-	}
+	// private int parent(int i) {
+	// return i / 2;
+	// }
 
 	private int heapSize = 0;
 	private int heapCapacity = 0;
 	private K[] data;
 	private Comparator<K> comparator;
 
+	@SuppressWarnings("unchecked")
 	public BinaryHeap(int capacity) {
 		super();
 		this.heapCapacity = capacity;
