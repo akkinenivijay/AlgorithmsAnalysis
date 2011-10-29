@@ -9,7 +9,7 @@ package org.gsu.cs.graph;
  * @author Vijay Akkineni
  * 
  */
-public class Edge {
+public class Edge implements Comparable<Edge> {
 
 	public Edge() {
 		super();
@@ -123,6 +123,27 @@ public class Edge {
 
 	public void setWeight(int weight) {
 		this.weight = weight;
+	}
+
+	@Override
+	public int compareTo(Edge anotherEdge) {
+		if (!(anotherEdge instanceof Edge)) {
+			throw new IllegalArgumentException(
+					"object passed to campare is not of type Edge");
+		} else {
+			if (this.getWeight() < ((Edge) anotherEdge).getWeight()) {
+				return -1;
+			}
+			if (this.getWeight() == ((Edge) anotherEdge).getWeight()) {
+				return -1;
+			}
+			if (this.getWeight() > ((Edge) anotherEdge).getWeight()) {
+				return 1;
+			}
+
+		}
+
+		return 0;
 	}
 
 }

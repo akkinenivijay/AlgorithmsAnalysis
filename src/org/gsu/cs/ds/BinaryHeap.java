@@ -1,85 +1,60 @@
 package org.gsu.cs.ds;
 
+import java.util.Comparator;
+
 import org.gsu.cs.graph.Edge;
+import org.gsu.cs.graph.util.EdgeComparator;
 
-public class BinaryHeap {
+public class BinaryHeap<K> {
 
-	private int heapSize;
-
-	private int left(int i) {
-		return 2 * i + 1;
-	}
-
-	private int right(int i) {
-		return (2 * i) + 2;
-	}
-
-	private int parent(int i) {
-		return i / 2;
-	}
-
-	public Edge[] buildHeap(Edge[] array) {
-		this.heapSize = array.length;
-		for (int i = array.length / 2; i >= 0; i--) {
-			minHeapify(array, i);
-		}
-		for (Edge e : array) {
-			System.out.print(e.getWeight() + "  ");
-		}
-		System.out.println("\n");
-
-		return array;
-	}
-
-	public Edge retrieveAndDeleteMin(Edge[] array) throws Exception {
-
-		if (array == null || array.length == 0)
-			throw new Exception("Heap is empty");
-		else {
-			if (heapSize > 0) {
-				Edge result = array[0];
-				array[0] = array[heapSize - 1];
-				heapSize--;
-				if (heapSize > 0)
-					minHeapify(array, 0);
-				return result;
-			} else {
-				throw new Exception("Heap is Emptied");
-			}
-		}
-	}
-
-	public Edge[] minHeapify(Edge[] array, int i) {
+	public void minHeapify(int i) {
 		int smallest;
 		int l = left(i);
 		int r = right(i);
 
-		if (l < heapSize && array[l].getWeight() < array[i].getWeight()) {
+		if (l < heapSize
+				&& (comparator.compare(inputArray[l], inputArray[i]) == -1)) {
 			smallest = l;
 		} else {
 			smallest = i;
 		}
 
-		if (r < heapSize && array[r].getWeight() < array[smallest].getWeight()) {
+		if (r < heapSize
+				&& (comparator.compare(inputArray[r], inputArray[smallest]) == -1)) {
 			smallest = r;
 		}
 
 		if (smallest != i) {
-			Edge temp = array[i];
-			array[i] = array[smallest];
-			array[smallest] = temp;
-			minHeapify(array, smallest);
+			K temp = inputArray[i];
+			inputArray[i] = inputArray[smallest];
+			inputArray[smallest] = temp;
+			minHeapify(smallest);
 		}
-
-		return array;
 	}
 
-	public int getHeapSize() {
-		return heapSize;
+	public void buildHeap() {
+		this.heapSize = inputArray.length;
+		for (int i = inputArray.length / 2; i >= 0; i--) {
+			minHeapify(i);
+		}
 	}
 
-	public void setHeapSize(int heapSize) {
-		this.heapSize = heapSize;
+	public K retrieveAndDeleteMin() throws Exception {
+
+		if (inputArray == null || inputArray.length == 0)
+			throw new Exception("Heap is empty");
+		else {
+			if (heapSize > 0) {
+				K result = inputArray[0];
+				inputArray[0] = inputArray[heapSize - 1];
+				heapSize--;
+				if (heapSize > 0)
+					minHeapify(0);
+				return result;
+			} else {
+				throw new Exception("Heap is Emptied");
+			}
+		}
 	}
 
 	public static void main(String[] args) {
@@ -96,18 +71,52 @@ public class BinaryHeap {
 			i++;
 		}
 
-		BinaryHeap bh = new BinaryHeap();
-		Edge[] temp = bh.buildHeap(edgeArray);
+		BinaryHeap<Edge> bh = new BinaryHeap<Edge>(edgeArray,
+				new EdgeComparator());
+		bh.buildHeap();
 		try {
 			for (int i1 = 0; i1 <= input.length; i1++) {
-				Edge e = bh.retrieveAndDeleteMin(temp);
+				Edge e = (Edge) bh.retrieveAndDeleteMin();
 				System.out.println("Min Wieghted Edge from the graph is: "
 						+ e.getWeight());
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	}
+
+	public BinaryHeap(K[] inputArray, Comparator<K> comparator) {
+		super();
+		this.inputArray = inputArray;
+		this.comparator = comparator;
+	}
+
+	private int heapSize;
+	private K[] inputArray;
+	private Comparator<K> comparator;
+
+	private int left(int i) {
+		return 2 * i + 1;
+	}
+
+	private int right(int i) {
+		return (2 * i) + 2;
+	}
+
+	private int parent(int i) {
+		return i / 2;
+	}
+
+	public int getHeapSize() {
+		return heapSize;
+	}
+
+	public void setHeapSize(int heapSize) {
+		this.heapSize = heapSize;
+	}
+
+	public K[] getInputArray() {
+		return inputArray;
 	}
 }
