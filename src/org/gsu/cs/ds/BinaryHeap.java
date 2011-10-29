@@ -58,16 +58,35 @@ public class BinaryHeap<K> {
 
 		if (heapSize < heapCapacity) {
 			data[heapSize] = element;
+			preserveHeapProperty(heapSize);
 			this.heapSize++;
-			minHeapify(heapSize);
 		} else {
 			System.out.println("Heap Size cannot exceed capacity");
 		}
 	}
 
+	private void preserveHeapProperty(int nodeIndex) {
+		int parentIndex;
+		if (nodeIndex != 0) {
+			parentIndex = parent(nodeIndex);
+			if (comparator.compare(data[parentIndex], data[nodeIndex]) == 1) {
+				K tmp = data[parentIndex];
+				data[parentIndex] = data[nodeIndex];
+				data[nodeIndex] = tmp;
+				preserveHeapProperty(parentIndex);
+			}
+		}
+	}
+
 	public void printData() {
 		for (K element : data) {
-			System.out.print(element + " ");
+			if (element instanceof Edge) {
+				Edge e = (Edge) element;
+				System.out.print(e.getWeight() + " ");
+			} else {
+				System.out.print(element + " ");
+			}
+
 		}
 		System.out.println();
 	}
@@ -80,9 +99,9 @@ public class BinaryHeap<K> {
 		return (2 * i) + 2;
 	}
 
-	// private int parent(int i) {
-	// return i / 2;
-	// }
+	private int parent(int i) {
+		return i / 2;
+	}
 
 	private int heapSize = 0;
 	private int heapCapacity = 0;
@@ -114,8 +133,8 @@ public class BinaryHeap<K> {
 				edge.setWeight(weight);
 				bh.insertIntoHeap(edge);
 			}
-
-			bh.buildHeap();
+			bh.printData();
+			//bh.buildHeap();
 
 			for (int i1 = 0; i1 < input.length; i1++) {
 				Edge e = (Edge) bh.retrieveAndDeleteMin();
