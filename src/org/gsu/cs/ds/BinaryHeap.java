@@ -18,13 +18,34 @@ public class BinaryHeap {
 		return i / 2;
 	}
 
-	public void buildHeap(Edge[] array) {
+	public Edge[] buildHeap(Edge[] array) {
 		this.heapSize = array.length;
 		for (int i = array.length / 2; i >= 0; i--) {
 			minHeapify(array, i);
 		}
 		for (Edge e : array) {
-			System.out.println(e.getWeight());
+			System.out.print(e.getWeight() + "  ");
+		}
+		System.out.println("\n");
+
+		return array;
+	}
+
+	public Edge retrieveAndDeleteMin(Edge[] array) throws Exception {
+
+		if (array == null || array.length == 0)
+			throw new Exception("Heap is empty");
+		else {
+			if (heapSize > 0) {
+				Edge result = array[0];
+				array[0] = array[heapSize - 1];
+				heapSize--;
+				if (heapSize > 0)
+					minHeapify(array, 0);
+				return result;
+			} else {
+				throw new Exception("Heap is Emptied");
+			}
 		}
 	}
 
@@ -76,7 +97,17 @@ public class BinaryHeap {
 		}
 
 		BinaryHeap bh = new BinaryHeap();
-		bh.buildHeap(edgeArray);
+		Edge[] temp = bh.buildHeap(edgeArray);
+		try {
+			for (int i1 = 0; i1 <= input.length; i1++) {
+				Edge e = bh.retrieveAndDeleteMin(temp);
+				System.out.println("Min Wieghted Edge from the graph is: "
+						+ e.getWeight());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 }
