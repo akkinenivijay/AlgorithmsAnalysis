@@ -16,7 +16,7 @@ import org.gsu.cs.graph.util.EdgeComparator;
 public class BinaryHeap<K> {
 
 	/**
-	 * Method to Min - Heapify the underlying data
+	 * Method to Min - Heapify the underlying data with asymptotic bound of O(logn)
 	 * 
 	 * @param i
 	 *            index from which to maintain the min property
@@ -45,8 +45,10 @@ public class BinaryHeap<K> {
 	}
 
 	/**
-	 * If the elements are not inserted using the InsertIntoHEap Method build
+	 * If the elements are not inserted using the InsertIntoHeap method build
 	 * heap method builds the heap maintaining the heap property
+	 * 
+	 * Aysmptotic Bound = O(nlogn)
 	 */
 	public void buildHeap() {
 		this.heapSize = data.length;
@@ -58,6 +60,8 @@ public class BinaryHeap<K> {
 	/**
 	 * Method to retrieve the minimum value from the heap and build the heap
 	 * again
+	 * 
+	 * Asymptotic Upper bound = O(logn)
 	 * 
 	 * @return
 	 */
@@ -81,6 +85,8 @@ public class BinaryHeap<K> {
 	/**
 	 * Method to insert elements into heap maintaining the heap property
 	 * throughout
+	 * 
+	 * Asymptotic Bound = O(logn)
 	 * 
 	 * @param element
 	 */
