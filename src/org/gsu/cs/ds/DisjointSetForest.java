@@ -56,6 +56,12 @@ public class DisjointSetForest<K> {
 			System.out.println(A[i]);
 		}
 
+		System.out.println();
+		System.out.println(forest.findSet(A[1]));
+		System.out.println(forest.findSet(A[2]));
+		System.out.println(forest.findSet(A[2]) != forest.findSet(A[1]));
+		System.out.println(forest.findSet(A[2]) == forest.findSet(A[1]));
+
 	}
 
 }

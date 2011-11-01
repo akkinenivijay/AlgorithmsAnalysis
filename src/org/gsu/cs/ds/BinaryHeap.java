@@ -16,7 +16,8 @@ import org.gsu.cs.graph.util.EdgeComparator;
 public class BinaryHeap<K> {
 
 	/**
-	 * Method to Min - Heapify the underlying data with asymptotic bound of O(logn)
+	 * Method to Min - Heapify the underlying data with asymptotic bound of
+	 * O(logn)
 	 * 
 	 * @param i
 	 *            index from which to maintain the min property
@@ -206,14 +207,22 @@ public class BinaryHeap<K> {
 
 			int[] input = { 23, 17, 14, 6, 13, 10, 1, 5, 7, 12 };
 
+			Edge[] edgeArray = new Edge[input.length];
+
+			int i = 0;
+
 			for (int weight : input) {
 				Edge edge = new Edge();
 				edge.setWeight(weight);
-				bh.insertIntoHeap(edge);
+				// bh.insertIntoHeap(edge);
+				edgeArray[i] = edge;
+				i++;
 			}
-			
+
+			bh.setData(edgeArray);
+			bh.setHeapSize(edgeArray.length);
 			bh.printData();
-			// bh.buildHeap();
+			bh.buildHeap();
 
 			for (int i1 = 0; i1 < input.length; i1++) {
 				Edge e = (Edge) bh.retrieveAndDeleteMin();
@@ -223,5 +232,21 @@ public class BinaryHeap<K> {
 			e.printStackTrace();
 		}
 
+	}
+
+	public int getHeapSize() {
+		return heapSize;
+	}
+
+	public void setHeapSize(int heapSize) {
+		this.heapSize = heapSize;
+	}
+
+	public K[] getData() {
+		return data;
+	}
+
+	public void setData(K[] data) {
+		this.data = data;
 	}
 }
