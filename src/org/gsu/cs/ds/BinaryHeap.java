@@ -7,7 +7,7 @@ import org.gsu.cs.graph.util.EdgeComparator;
 
 /**
  * A generic class to build Binary Heap, This class is an implementation of Min
- * Heap
+ * Heap and also acts as priority queue
  * 
  * @author Vijay Akkineni
  * 
