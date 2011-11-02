@@ -1,9 +1,5 @@
 package org.gsu.cs.spanning;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Queue;
-
 import org.gsu.cs.ds.BinaryHeap;
 import org.gsu.cs.ds.DisjointSetForest;
 import org.gsu.cs.ds.Node;
@@ -19,13 +15,11 @@ public class Kruskal {
 
 	private Edge[] edgeArray;
 	private Node<Integer>[] vertexArray;
-	private Queue<Edge> queue;
 
-	private void execute(int capacity, Comparator comparator) {
+	private void execute() {
 
-		BinaryHeap<Edge> heap = new BinaryHeap<Edge>(capacity);
-		heap.setComparator(comparator);
-		queue = new LinkedList<Edge>();
+		BinaryHeap<Edge> heap = new BinaryHeap<Edge>(9);
+		heap.setComparator(new EdgeComparator());
 
 		DisjointSetForest<Integer> forest = new DisjointSetForest<Integer>();
 		heap.setData(edgeArray);
@@ -44,15 +38,10 @@ public class Kruskal {
 				Node<Integer> tempSet = forest.union(from, to);
 				vertexArray[edge.getFrom()] = tempSet;
 				vertexArray[edge.getTo()] = tempSet;
-				queue.add(edge);
+				System.out.println(tempSet + " " + edge.getFrom() + " "
+						+ edge.getTo());
 			}
 			edgeSize++;
-		}
-
-		System.out.println();
-
-		for (Edge node : queue) {
-			System.out.println(node.toString());
 		}
 
 	}
@@ -127,7 +116,7 @@ public class Kruskal {
 		kr.setEdgeArray(edgeArray);
 		kr.setVertexArray(vertexArray);
 
-		kr.execute(edgeArray.length, new EdgeComparator());
+		kr.execute();
 
 	}
 
