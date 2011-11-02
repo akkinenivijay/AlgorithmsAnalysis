@@ -11,7 +11,7 @@ import org.gsu.cs.graph.util.Color;
 public class Vertex {
 	private int vertexIndex;
 	private Color color = Color.WHITE;
-	private int predecessor = 0;
+	private Vertex predecessor = null;
 	private int distanceFromSource = Integer.MAX_VALUE;
 
 	public int getVertexIndex() {
@@ -30,19 +30,12 @@ public class Vertex {
 		this.color = color;
 	}
 
-	public int getPredecessor() {
+	public Vertex getPredecessor() {
 		return predecessor;
 	}
 
-	public void setPredecessor(int predecessor) {
+	public void setPredecessor(Vertex predecessor) {
 		this.predecessor = predecessor;
-	}
-
-	@Override
-	public String toString() {
-		return "Vertex [vertexIndex=" + vertexIndex + ", color=" + color
-				+ ", predecessor=" + predecessor + ", distanceFromSource="
-				+ distanceFromSource + "]";
 	}
 
 	public int getDistanceFromSource() {
@@ -52,4 +45,12 @@ public class Vertex {
 	public void setDistanceFromSource(int distanceFromSource) {
 		this.distanceFromSource = distanceFromSource;
 	}
+
+	@Override
+	public String toString() {
+		return "Vertex [vertexIndex=" + vertexIndex + ", color=" + color
+				+ ", predecessor=" + predecessor + ", distanceFromSource="
+				+ distanceFromSource + "]";
+	}
+
 }

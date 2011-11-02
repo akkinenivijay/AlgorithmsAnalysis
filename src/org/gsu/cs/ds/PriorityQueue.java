@@ -322,4 +322,13 @@ public class PriorityQueue<K> {
 		}
 
 	}
+
+	public int getHeapSize() {
+		return heapSize;
+	}
+
+	public Map<K, Entry<K>> getEntryMapper() {
+		return entryMapper;
+	}
+
 }
