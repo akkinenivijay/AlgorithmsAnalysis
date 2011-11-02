@@ -1,11 +1,9 @@
 package org.gsu.cs.ds;
 
-import java.util.Comparator;
-
 import java.util.HashMap;
 import java.util.Map;
+
 import org.gsu.cs.graph.Edge;
-import org.gsu.cs.graph.util.EdgeComparator;
 
 /**
  * A Priority Queue Implementation with support for decrease key operation. This
@@ -29,9 +27,9 @@ public class PriorityQueue<K> {
 	 * 
 	 * @param <K>
 	 */
-	private final class Entry<K> {
+	private final class Entry<T> {
 
-		public K element;
+		public T element;
 		public int index;
 		public int priority;
 
@@ -50,7 +48,7 @@ public class PriorityQueue<K> {
 	 * Maximum Capacity of the Heap
 	 */
 	private int heapCapacity = 0;
-	public Map<K, Entry<K>> entryMapper = new HashMap<K, Entry<K>>();
+	private Map<K, Entry<K>> entryMapper = new HashMap<K, Entry<K>>();
 	/**
 	 * Data stored in the priority queue and we use the array indices to
 	 * determine the right and left children of the node. A standard trait of
@@ -58,26 +56,23 @@ public class PriorityQueue<K> {
 	 */
 	private Entry<K>[] dataArray;
 
-	public int getHeapSize() {
-		return heapSize;
+	public void setDataArray(K[] dataArray, int[] priorityArray) {
+		int i = 0;
+
+		for (K element : dataArray) {
+			Entry<K> entry = new Entry<K>();
+			entry.element = element;
+			entry.index = i;
+			entry.priority = priorityArray[i];
+			this.dataArray[i] = entry;
+			entryMapper.put(entry.element, entry);
+			i++;
+		}
+
+		this.heapSize = dataArray.length;
+
 	}
 
-	public void setHeapSize(int heapSize) {
-		this.heapSize = heapSize;
-	}
-
-	public Entry<K>[] getDataArray() {
-		return dataArray;
-	}
-
-	public void setDataArray(Entry<K>[] dataArray) {
-		this.dataArray = dataArray;
-	}
-
-	// TODO add a data structure to store the element mappings to the entry
-	// TODO which would always give the position of the element in the Priority
-	// Queue
-	// TODO without traversing the priority queue
 	/**
 	 * Method to insert elements into heap maintaining the heap property
 	 * throughout
@@ -110,7 +105,7 @@ public class PriorityQueue<K> {
 	 * @param i
 	 *            index from which to maintain the min property
 	 */
-	public void minHeapify(int i) {
+	private void minHeapify(int i) {
 		int smallest;
 		int l = left(i);
 		int r = right(i);
@@ -276,11 +271,6 @@ public class PriorityQueue<K> {
 		return i / 2;
 	}
 
-	/**
-	 * Comparator used to compare elements
-	 */
-	private Comparator<K> comparator;
-
 	@SuppressWarnings("unchecked")
 	public PriorityQueue(int capacity) {
 		super();
@@ -288,52 +278,40 @@ public class PriorityQueue<K> {
 		this.dataArray = new Entry[heapCapacity];
 	}
 
-	public void setComparator(Comparator<K> comparator) {
-		this.comparator = comparator;
-	}
-
 	public static void main(String[] args) {
 
 		PriorityQueue<Edge> bh = null;
 		try {
 			bh = new PriorityQueue<Edge>(10);
-			bh.setComparator(new EdgeComparator());
 
 			int[] input = { 23, 17, 14, 6, 13, 10, 1, 5, 7, 12 };
 
 			Edge[] edgeArray = new Edge[input.length];
-			// bh.setHeapSize(edgeArray.length);
 
 			int i = 0;
 
 			for (int weight : input) {
 				Edge edge = new Edge();
 				edge.setWeight(weight);
-				bh.insertIntoHeap(edge, edge.getWeight());
+				// bh.insertIntoHeap(edge, edge.getWeight());
 				edgeArray[i] = edge;
 				i++;
 			}
 
-			// bh.setData(edgeArray);
+			bh.setDataArray(edgeArray, input);
 
 			// bh.printData();
 			bh.printMap();
 			bh.buildHeap();
 			bh.printMap();
 
-			System.out.println(edgeArray[0]);
-
 			bh.decreaseKey(edgeArray[0], 0);
-
 			bh.printMap();
 
-			// for (int i1 = 0; i1 < input.length; i1++) {
-			// Edge e = (Edge) bh.retrieveAndDeleteMin();
-			// if (i1 == 0) {
-			// bh.printMap();
-			// }
-			// System.out.print(e.getWeight() + " ");
-			// }
+			for (int i1 = 0; i1 < input.length; i1++) {
+				Edge e = (Edge) bh.retrieveAndDeleteMin();
+				System.out.print(e.getWeight() + " ");
+			}
 			//
 			// System.out.println();
 			//
