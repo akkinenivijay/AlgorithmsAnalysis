@@ -2,6 +2,8 @@ package org.gsu.cs.ds;
 
 import java.util.Comparator;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.gsu.cs.graph.Edge;
 import org.gsu.cs.graph.util.EdgeComparator;
 
@@ -28,6 +30,7 @@ public class PriorityQueue<K> {
 	 * @param <K>
 	 */
 	private final class Entry<K> {
+
 		public K element;
 		public int index;
 		public int priority;
@@ -43,12 +46,11 @@ public class PriorityQueue<K> {
 	 * The current size of the heap
 	 */
 	private int heapSize = 0;
-
 	/**
 	 * Maximum Capacity of the Heap
 	 */
 	private int heapCapacity = 0;
-
+	public Map<K, Entry<K>> entryMapper = new HashMap<K, Entry<K>>();
 	/**
 	 * Data stored in the priority queue and we use the array indices to
 	 * determine the right and left children of the node. A standard trait of
@@ -76,7 +78,6 @@ public class PriorityQueue<K> {
 	// TODO which would always give the position of the element in the Priority
 	// Queue
 	// TODO without traversing the priority queue
-
 	/**
 	 * Method to insert elements into heap maintaining the heap property
 	 * throughout
@@ -95,6 +96,7 @@ public class PriorityQueue<K> {
 			entry.index = heapSize;
 			dataArray[heapSize] = entry;
 			preserveHeapProperty(heapSize);
+			entryMapper.put(element, entry);
 			this.heapSize++;
 		} else {
 			System.out.println("Heap Size cannot exceed capacity");
@@ -152,6 +154,18 @@ public class PriorityQueue<K> {
 		}
 	}
 
+	public void decreaseKey(K element, int priority) {
+		Entry<K> entry = entryMapper.get(element);
+		int elementPosition = entry.index;
+		if (entry.priority < priority) {
+			System.out.println("New Priority is greater than the current "
+					+ "priority - Decrese Priority operation only");
+		} else {
+			entry.priority = priority;
+			preserveHeapProperty(elementPosition);
+		}
+	}
+
 	/**
 	 * Method to retrieve the minimum value from the heap and build the heap
 	 * again
@@ -162,15 +176,17 @@ public class PriorityQueue<K> {
 	 */
 	public K retrieveAndDeleteMin() {
 
-		if (dataArray == null || heapSize == 0)
+		if (dataArray == null || heapSize == 0) {
 			System.out.println("Heap is empty");
-
+		}
 		if (heapSize > 0) {
 			Entry<K> result = dataArray[0];
 			dataArray[0] = dataArray[heapSize - 1];
 			heapSize--;
-			if (heapSize > 0)
+			if (heapSize > 0) {
 				minHeapify(0);
+			}
+			entryMapper.remove(result.element);
 			return result.element;
 		}
 
@@ -217,6 +233,16 @@ public class PriorityQueue<K> {
 		for (Entry<K> element : dataArray) {
 			System.out.println(element);
 		}
+		System.out.println();
+	}
+
+	public void printMap() {
+
+		for (K key : entryMapper.keySet()) {
+			System.out.print((entryMapper.get(key).index) + ":"
+					+ (entryMapper.get(key).priority) + " ");
+		}
+
 		System.out.println();
 	}
 
@@ -290,17 +316,32 @@ public class PriorityQueue<K> {
 
 			// bh.setData(edgeArray);
 
-			bh.printData();
+			// bh.printData();
+			bh.printMap();
 			bh.buildHeap();
+			bh.printMap();
 
-			for (int i1 = 0; i1 < input.length; i1++) {
-				Edge e = (Edge) bh.retrieveAndDeleteMin();
-				System.out.print(e.getWeight() + " ");
-			}
+			System.out.println(edgeArray[0]);
+
+			bh.decreaseKey(edgeArray[0], 0);
+
+			bh.printMap();
+
+			// for (int i1 = 0; i1 < input.length; i1++) {
+			// Edge e = (Edge) bh.retrieveAndDeleteMin();
+			// if (i1 == 0) {
+			// bh.printMap();
+			// }
+			// System.out.print(e.getWeight() + " ");
+			// }
+			//
+			// System.out.println();
+			//
+			// bh.printData();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
 }
