@@ -17,7 +17,7 @@ import org.gsu.cs.spanning.Prim;
  * @author lokesh
  * 
  */
-public class PrimGraphGenerator {
+public class MinimumSpanningAlgoComparision {
 
 	/**
 	 * @param args
