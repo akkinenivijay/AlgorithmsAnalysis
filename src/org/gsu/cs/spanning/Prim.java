@@ -39,7 +39,7 @@ public class Prim {
 
 		pq.buildHeap();
 
-		pq.printData();
+		// pq.printData();
 
 		while (pq.getHeapSize() != 0) {
 			Vertex sourceVertex = pq.retrieveAndDeleteMin();

@@ -2,6 +2,8 @@ package org.gsu.cs.graph.util;
 
 import java.util.Random;
 
+import org.gsu.cs.spanning.Prim;
+
 /**
  * An utility class to generate graphs
  * 
@@ -16,27 +18,40 @@ public class PrimGraphGenerator {
 	public static void main(String[] args) {
 
 		Random random = new Random();
-		int numOfVertices = 0;
+		int numberOfVertices = 0;
 		int numberOfEdges = 0;
 
 		int power = 4;
 		int maxPower = 9;
 
 		while (power < maxPower) {
-			numOfVertices = (int) Math.pow(2.0, power);
+			numberOfVertices = (int) Math.pow(2.0, power);
 			numberOfEdges = 0;
-			System.out.println(numOfVertices);
 			int factor = 1;
-			while (numberOfEdges <= (numOfVertices * (numOfVertices - 1)) / 2) {
+			while (numberOfEdges <= (numberOfVertices * (numberOfVertices - 1)) / 2) {
 				if (numberOfEdges > 0) {
-					System.out.print(numberOfEdges + " ");
+					System.out.print(numberOfVertices + ":" + numberOfEdges
+							+ " ");
+					long totalTime = 0;
+					for (int repeat = 0; repeat < 5; repeat++) {
+						int[][] adjacencyMatrix = new int[numberOfVertices][numberOfVertices];
 
-					int[][] adjacentMatrix = new int[numOfVertices][numOfVertices];
+						populateEdges(random, numberOfVertices, numberOfEdges,
+								adjacencyMatrix);
 
-					populateEdges(random, numOfVertices, numberOfEdges,
-							adjacentMatrix);
+						System.gc();
+
+						Prim prim = new Prim(numberOfVertices);
+						long startTime = System.nanoTime();
+						prim.execute(adjacencyMatrix);
+						long endTime = System.nanoTime();
+						totalTime = totalTime + (endTime - startTime);
+						System.gc();
+					}
+					System.out.print(" " + totalTime / 5);
+					System.out.println();
 				}
-				numberOfEdges = factor * numOfVertices;
+				numberOfEdges = factor * numberOfVertices;
 				factor = factor * 2;
 			}
 
