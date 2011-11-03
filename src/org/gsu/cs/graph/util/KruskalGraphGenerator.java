@@ -35,8 +35,7 @@ public class KruskalGraphGenerator {
 			int factor = 1;
 			while (numberOfEdges <= (numberOfVertices * (numberOfVertices - 1)) / 2) {
 				if (numberOfEdges > 0) {
-					System.out.print(numberOfVertices + ":" + numberOfEdges
-							+ " ");
+					System.out.print(numberOfEdges / numberOfVertices + "\t");
 					long totalTime = 0;
 					for (int repeat = 0; repeat < 5; repeat++) {
 
@@ -63,7 +62,7 @@ public class KruskalGraphGenerator {
 						totalTime = totalTime + (endTime - startTime);
 						System.gc();
 					}
-					System.out.print(" " + totalTime / 5);
+					System.out.print(totalTime / 5);
 					System.out.println();
 				}
 				numberOfEdges = factor * numberOfVertices;

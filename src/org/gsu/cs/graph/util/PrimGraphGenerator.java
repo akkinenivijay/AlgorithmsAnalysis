@@ -1,7 +1,14 @@
 package org.gsu.cs.graph.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import org.gsu.cs.ds.Node;
+import org.gsu.cs.graph.Edge;
+import org.gsu.cs.spanning.Kruskal;
 import org.gsu.cs.spanning.Prim;
 
 /**
@@ -30,25 +37,43 @@ public class PrimGraphGenerator {
 			int factor = 1;
 			while (numberOfEdges <= (numberOfVertices * (numberOfVertices - 1)) / 2) {
 				if (numberOfEdges > 0) {
-					System.out.print(numberOfVertices + ":" + numberOfEdges
-							+ " ");
-					long totalTime = 0;
+					System.out.print(numberOfEdges / numberOfVertices + "\t");
+					long primstotalTime = 0;
+					long kruskaltotalTime = 0;
 					for (int repeat = 0; repeat < 5; repeat++) {
 						int[][] adjacencyMatrix = new int[numberOfVertices][numberOfVertices];
 
-						populateEdges(random, numberOfVertices, numberOfEdges,
-								adjacencyMatrix);
+						Node<Integer>[] vertexArray = new Node[numberOfVertices];
+
+						for (int vertex = 0; vertex < numberOfVertices; vertex++) {
+							vertexArray[vertex] = new Node<Integer>(vertex);
+						}
+
+						Map map = populateEdges(random, numberOfVertices,
+								numberOfEdges, adjacencyMatrix);
 
 						System.gc();
 
 						Prim prim = new Prim(numberOfVertices);
 						long startTime = System.nanoTime();
-						prim.execute(adjacencyMatrix);
+						prim.execute((int[][]) map.get("matrix"));
 						long endTime = System.nanoTime();
-						totalTime = totalTime + (endTime - startTime);
+						primstotalTime = primstotalTime + (endTime - startTime);
 						System.gc();
+
+						Kruskal kruskal = new Kruskal();
+						kruskal.setEdgeArray((Edge[]) map.get("edgeArray"));
+						kruskal.setVertexArray(vertexArray);
+						startTime = System.nanoTime();
+						kruskal.execute();
+						endTime = System.nanoTime();
+						kruskaltotalTime = kruskaltotalTime
+								+ (endTime - startTime);
+						System.gc();
+
 					}
-					System.out.print(" " + totalTime / 5);
+					System.out.print(primstotalTime / 5 + "\t"
+							+ kruskaltotalTime);
 					System.out.println();
 				}
 				numberOfEdges = factor * numberOfVertices;
@@ -60,7 +85,7 @@ public class PrimGraphGenerator {
 		}
 	}
 
-	private static void populateEdges(Random random, int numOfVertices,
+	private static Map populateEdges(Random random, int numOfVertices,
 			int numberOfEdges, int[][] adjacentMatrix) {
 		for (int i = 0; i < numOfVertices - 1; i++) {
 			int weight = random.nextInt(1001);
@@ -88,5 +113,35 @@ public class PrimGraphGenerator {
 			}
 			index++;
 		}
+
+		List<Edge> edgeList = new ArrayList<Edge>();
+
+		int count = 0;
+		for (int u = 0; u < numOfVertices; u++) {
+			for (int v = 0; v < numOfVertices; v++) {
+				if (u != v && u <= v)
+					if (adjacentMatrix[u][v] != 0) {
+						Edge edge = new Edge();
+						edge.setWeight(adjacentMatrix[u][v]);
+						edge.setFrom(u);
+						edge.setTo(v);
+						edgeList.add(edge);
+						count++;
+					}
+			}
+		}
+
+		Edge[] edgeArray = new Edge[count];
+		int idx = 0;
+		for (Edge e : edgeList) {
+			edgeArray[idx] = e;
+			idx++;
+		}
+
+		Map map = new HashMap<String, Object>();
+
+		map.put("matrix", adjacentMatrix);
+		map.put("edgeArray", edgeArray);
+		return map;
 	}
 }
