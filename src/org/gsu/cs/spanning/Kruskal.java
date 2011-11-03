@@ -16,7 +16,7 @@ public class Kruskal {
 	private Edge[] edgeArray;
 	private Node<Integer>[] vertexArray;
 
-	private void execute() {
+	public void execute() {
 
 		BinaryHeap<Edge> heap = new BinaryHeap<Edge>(9);
 		heap.setComparator(new EdgeComparator());
@@ -38,8 +38,8 @@ public class Kruskal {
 				Node<Integer> tempSet = forest.union(from, to);
 				vertexArray[edge.getFrom()] = tempSet;
 				vertexArray[edge.getTo()] = tempSet;
-				System.out.println(tempSet + " " + edge.getFrom() + " "
-						+ edge.getTo());
+//				System.out.println(tempSet + " " + edge.getFrom() + " "
+//						+ edge.getTo());
 			}
 			edgeSize++;
 		}
