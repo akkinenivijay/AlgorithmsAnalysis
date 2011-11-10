@@ -123,8 +123,8 @@ public class MinimumSpanningAlgoComparision {
 					if (adjacentMatrix[u][v] != 0) {
 						Edge edge = new Edge();
 						edge.setWeight(adjacentMatrix[u][v]);
-						edge.setFrom(u);
-						edge.setTo(v);
+						edge.setI(u);
+						edge.setJ(v);
 						edgeList.add(edge);
 						count++;
 					}

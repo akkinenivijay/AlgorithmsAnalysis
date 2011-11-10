@@ -3,6 +3,7 @@ package org.gsu.cs.graph;
 import java.util.Random;
 
 import org.gsu.cs.graph.datatype.GenericLinkedList;
+import org.gsu.cs.graph.flow.Dinics;
 
 /**
  * Graph Representation with a Adjacency List Data Structure
@@ -98,8 +99,8 @@ public class AdjacencyListGraph {
 	 */
 	public void addEdge(Edge edge) {
 		edges++;
-		int u = edge.getFrom();
-		int v = edge.getTo();
+		int u = edge.getI();
+		int v = edge.getJ();
 		adjacencyList[u].add(edge);
 		adjacencyList[v].add(edge);
 	}
@@ -129,7 +130,7 @@ public class AdjacencyListGraph {
 		for (int v = 0; v < vertices; v++) {
 			s.append(v + ":  ");
 			for (Edge edge : adjacencyList[v]) {
-				if (edge.getTo() != v)
+				if (edge.getJ() != v)
 					s.append(edge + "  ");
 			}
 
@@ -140,8 +141,9 @@ public class AdjacencyListGraph {
 	}
 
 	public static void main(String[] args) {
-		AdjacencyListGraph G = new AdjacencyListGraph(100, 4000, 1000);
-		System.out.println(G);
+		// AdjacencyListGraph G = new AdjacencyListGraph(100, 4000, 1000);
+		AdjacencyListGraph G = new AdjacencyListGraph(4, 5, "");
+		System.out.println(G);		
 	}
 
 }

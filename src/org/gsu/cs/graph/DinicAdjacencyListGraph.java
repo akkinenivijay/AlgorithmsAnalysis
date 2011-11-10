@@ -75,15 +75,21 @@ public class DinicAdjacencyListGraph {
 	 */
 	public DinicAdjacencyListGraph(int vertices, int edges, String custom) {
 		this(vertices);
-		addEdge(new Edge(0, 1, 10));
-		addEdge(new Edge(0, 2, 10));
-		addEdge(new Edge(1, 2, 2));
-		addEdge(new Edge(1, 3, 4));
-		addEdge(new Edge(1, 4, 8));
-		addEdge(new Edge(2, 4, 9));
-		addEdge(new Edge(3, 5, 10));
-		addEdge(new Edge(4, 3, 6));
-		addEdge(new Edge(4, 5, 10));
+		// addEdge(new Edge(0, 1, 10));
+		// addEdge(new Edge(0, 2, 10));
+		// addEdge(new Edge(1, 2, 2));
+		// addEdge(new Edge(1, 3, 4));
+		// addEdge(new Edge(1, 4, 8));
+		// addEdge(new Edge(2, 4, 9));
+		// addEdge(new Edge(3, 5, 10));
+		// addEdge(new Edge(4, 3, 6));
+		// addEdge(new Edge(4, 5, 10));
+
+		addEdge(new Edge(0, 1, 3));
+		addEdge(new Edge(0, 2, 2));
+		addEdge(new Edge(1, 2, 3));
+		addEdge(new Edge(2, 3, 4));
+		addEdge(new Edge(1, 3, 2));
 	}
 
 	/**
@@ -103,9 +109,10 @@ public class DinicAdjacencyListGraph {
 	 */
 	public void addEdge(Edge edge) {
 		edges++;
-		int u = edge.getFrom();
-		int v = edge.getTo();
+		int u = edge.getI();
+		int v = edge.getJ();
 		adjacencyList[u].add(edge);
+		adjacencyList[v].add(edge);
 	}
 
 	public int getVertices() {
@@ -132,21 +139,26 @@ public class DinicAdjacencyListGraph {
 		s.append("vertices: " + vertices + " " + "Edges: " + edges + NEWLINE);
 		for (int v = 0; v < vertices; v++) {
 			s.append(v + ":  ");
-			if (adjacencyList[v].size() > 0)
-				for (Edge edge : adjacencyList[v]) {
-					if (edge.getTo() != v)
-						s.append(edge + "  ");
-				}
+			// dif (adjacencyList[v].size() > 0)
+			for (Edge edge : adjacencyList[v]) {
+				if (edge.getJ() != v)
+					s.append(edge + "  ");
+			}
 			s.append(NEWLINE);
 		}
 		return s.toString();
 	}
 
 	public static void main(String[] args) {
-		DinicAdjacencyListGraph G = new DinicAdjacencyListGraph(6, 9, "");
-		System.out.println(G);
+		DinicAdjacencyListGraph G = new DinicAdjacencyListGraph(4, 5, "");
+		// System.out.println(G);
+		// System.out.println(G.adjacentList(5));
+		//
+		// for (Edge e : G.adjacentList(4)) {
+		// System.out.println(e);
+		// }
 		Dinics dn = new Dinics();
-		dn.execute(G, 0, 5);
+		//dn.execute(G, 0, 3);
 	}
 
 }
