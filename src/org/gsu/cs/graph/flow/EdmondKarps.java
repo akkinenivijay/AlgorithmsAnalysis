@@ -94,7 +94,7 @@ public class EdmondKarps {
 	private static void printFlowOnEdges(AdjacencyListGraph G) {
 		for (int v = 0; v < G.getVertices(); v++) {
 			for (Edge e : G.adjacentList(v)) {
-				if ((v == e.getFrom()) && e.getFlow() > 0)
+				if ((v == e.getI()) && e.getFlow() > 0)
 					System.out.println("   " + e);
 			}
 		}
@@ -178,7 +178,7 @@ public class EdmondKarps {
 	private int excess(AdjacencyListGraph G, int u) {
 		int excess = 0;
 		for (Edge e : G.adjacentList(u)) {
-			if (u == e.getFrom())
+			if (u == e.getI())
 				excess -= e.getFlow();
 			else
 				excess += e.getFlow();

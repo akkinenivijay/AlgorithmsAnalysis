@@ -31,13 +31,13 @@ public class Kruskal {
 
 		while (edgeSize < edgeArray.length && vertexSize <= vertexArray.length) {
 			Edge edge = heap.retrieveAndDeleteMin();
-			Node<Integer> from = forest.findSet(vertexArray[edge.getFrom()]);
-			Node<Integer> to = forest.findSet(vertexArray[edge.getTo()]);
+			Node<Integer> from = forest.findSet(vertexArray[edge.getI()]);
+			Node<Integer> to = forest.findSet(vertexArray[edge.getJ()]);
 			if (from != to) {
 				vertexSize = vertexSize + 1;
 				Node<Integer> tempSet = forest.union(from, to);
-				vertexArray[edge.getFrom()] = tempSet;
-				vertexArray[edge.getTo()] = tempSet;
+				vertexArray[edge.getI()] = tempSet;
+				vertexArray[edge.getJ()] = tempSet;
 //				System.out.println(tempSet + " " + edge.getFrom() + " "
 //						+ edge.getTo());
 			}
@@ -55,56 +55,56 @@ public class Kruskal {
 
 		Edge edge = new Edge();
 		edge.setWeight(4);
-		edge.setFrom(0);
-		edge.setTo(1);
+		edge.setI(0);
+		edge.setJ(1);
 		edgeArray[0] = edge;
 
 		Edge edge1 = new Edge();
 		edge1.setWeight(7);
-		edge1.setFrom(1);
-		edge1.setTo(2);
+		edge1.setI(1);
+		edge1.setJ(2);
 		edgeArray[1] = edge1;
 
 		Edge edge2 = new Edge();
 		edge2.setWeight(5);
-		edge2.setFrom(2);
-		edge2.setTo(3);
+		edge2.setI(2);
+		edge2.setJ(3);
 		edgeArray[2] = edge2;
 
 		Edge edge3 = new Edge();
 		edge3.setWeight(2);
-		edge3.setFrom(3);
-		edge3.setTo(4);
+		edge3.setI(3);
+		edge3.setJ(4);
 		edgeArray[3] = edge3;
 
 		Edge edge4 = new Edge();
 		edge4.setWeight(6);
-		edge4.setFrom(4);
-		edge4.setTo(5);
+		edge4.setI(4);
+		edge4.setJ(5);
 		edgeArray[4] = edge4;
 
 		Edge edge5 = new Edge();
 		edge5.setWeight(1);
-		edge5.setFrom(5);
-		edge5.setTo(0);
+		edge5.setI(5);
+		edge5.setJ(0);
 		edgeArray[5] = edge5;
 
 		Edge edge6 = new Edge();
 		edge6.setWeight(3);
-		edge6.setFrom(5);
-		edge6.setTo(1);
+		edge6.setI(5);
+		edge6.setJ(1);
 		edgeArray[6] = edge6;
 
 		Edge edge7 = new Edge();
 		edge7.setWeight(11);
-		edge7.setFrom(5);
-		edge7.setTo(2);
+		edge7.setI(5);
+		edge7.setJ(2);
 		edgeArray[7] = edge7;
 
 		Edge edge8 = new Edge();
 		edge8.setWeight(3);
-		edge8.setFrom(4);
-		edge8.setTo(2);
+		edge8.setI(4);
+		edge8.setJ(2);
 		edgeArray[8] = edge8;
 
 		Node[] vertexArray = { new Node<Integer>(0), new Node<Integer>(1),

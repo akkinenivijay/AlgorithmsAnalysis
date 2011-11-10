@@ -15,16 +15,16 @@ public class Edge implements Comparable<Edge> {
 		super();
 	}
 
-	private int from;
-	private int to;
+	private int i;
+	private int j;
 	private int weight;
 	private int capacity;
 	private int flow;
 
 	public Edge(int from, int to, int capacity) {
 		super();
-		this.from = from;
-		this.to = to;
+		this.i = from;
+		this.j = to;
 		this.capacity = capacity;
 	}
 
@@ -36,8 +36,8 @@ public class Edge implements Comparable<Edge> {
 
 	}
 
-	public int getFrom() {
-		return from;
+	public int getI() {
+		return i;
 	}
 
 	/**
@@ -45,12 +45,12 @@ public class Edge implements Comparable<Edge> {
 	 * 
 	 * @param from
 	 */
-	public void setFrom(int from) {
-		this.from = from;
+	public void setI(int from) {
+		this.i = from;
 	}
 
-	public int getTo() {
-		return to;
+	public int getJ() {
+		return j;
 	}
 
 	/**
@@ -58,8 +58,8 @@ public class Edge implements Comparable<Edge> {
 	 * 
 	 * @param to
 	 */
-	public void setTo(int to) {
-		this.to = to;
+	public void setJ(int to) {
+		this.j = to;
 	}
 
 	public int getCapacity() {
@@ -78,15 +78,15 @@ public class Edge implements Comparable<Edge> {
 
 	@Override
 	public String toString() {
-		return "Edge [from=" + from + ", to=" + to + ", weight=" + weight
+		return "Edge [from=" + i + ", to=" + j + ", weight=" + weight
 				+ ", capacity=" + capacity + ", flow=" + flow + "]";
 	}
 
 	public int other(int u) {
-		if (u == from)
-			return to;
-		else if (u == to)
-			return from;
+		if (u == i)
+			return j;
+		else if (u == j)
+			return i;
 		else
 			throw new RuntimeException("Illegal endpoint");
 	}
@@ -100,18 +100,18 @@ public class Edge implements Comparable<Edge> {
 	}
 
 	public int residualCapacityTo(int vertex) {
-		if (vertex == from)
+		if (vertex == i)
 			return flow;
-		else if (vertex == to)
+		else if (vertex == j)
 			return capacity - flow;
 		else
 			throw new RuntimeException("Illegal endpoint");
 	}
 
 	public void addResidualFlowTo(int vertex, int delta) {
-		if (vertex == from)
+		if (vertex == i)
 			flow -= delta;
-		else if (vertex == to)
+		else if (vertex == j)
 			flow += delta;
 		else
 			throw new RuntimeException("Illegal endpoint");

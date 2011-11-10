@@ -26,12 +26,15 @@ public class Dinics {
 		// while there exists an augmenting path, use it
 		while (isAugmentingPathPresent(G, s, t)) {
 
-			while (true) {
-				int df = DinicDFS(G, s, t, Integer.MAX_VALUE);
-				if (df == 0)
-					break;
-				flow += df;
-			}
+			int df = DinicDFS(G, s, t, Integer.MAX_VALUE);
+
+			System.out.println(df);
+			if (df == 0)
+				break;
+			flow += df;
+
+			System.out.println(flow);
+
 		}
 
 	}
@@ -45,14 +48,16 @@ public class Dinics {
 		int ret = 0;
 
 		for (Edge edge : G.adjacentList(s)) {
-			if (distance[edge.getTo()] == distance[edge.getFrom() + 1]
-					&& edge.getCapacity() - edge.getFlow() > 0) {
-				int tadd = DinicDFS(G, edge.getTo(), t,
-						Math.min(edge.getCapacity() - edge.getFlow(), maxValue));
+			if (distance[edge.other(s)] == distance[s] + 1
+					&& edge.residualCapacityTo(edge.getJ()) > 0) {
+				int tadd = DinicDFS(G, edge.getJ(), t, Math.min(
+						edge.residualCapacityTo(edge.getJ()), maxValue));
 				ret = ret + tadd;
-				edge.setCapacity(edge.getCapacity() - tadd);
-				edge.setFlow(edge.getFlow() + tadd);
-				if (edge.getCapacity() == 0)
+				edge.addResidualFlowTo(edge.other(edge.getI()), tadd);
+				System.out.println(edge);
+				// edge.setCapacity(edge.getCapacity() - tadd);
+				// edge.setFlow(edge.getFlow() + tadd);
+				if (edge.residualCapacityTo(edge.getJ()) == 0)
 					break;
 			}
 		}
@@ -76,7 +81,6 @@ public class Dinics {
 		Queue<Integer> queue = new LinkedList<Integer>();
 		distance = new int[G.getVertices()];
 		Arrays.fill(distance, Integer.MAX_VALUE);
-		edgeTo = new Edge[G.getVertices()];
 
 		queue.add(s);
 		distance[s] = 0;
@@ -88,10 +92,9 @@ public class Dinics {
 			for (Edge edge : G.adjacentList(u)) {
 				int v = edge.other(u);
 
-				if (distance[edge.getTo()] == Integer.MAX_VALUE
-						&& (edge.getCapacity() - edge.getFlow()) > 0) {
-					edgeTo[v] = edge;
-					distance[v] = distance[edge.getFrom()] + 1;
+				if (distance[v] == Integer.MAX_VALUE
+						&& (edge.residualCapacityTo(v)) > 0) {
+					distance[v] = distance[edge.getI()] + 1;
 					queue.add(v);
 				}
 
@@ -110,7 +113,7 @@ public class Dinics {
 	private int excess(DinicAdjacencyListGraph G, int u) {
 		int excess = 0;
 		for (Edge e : G.adjacentList(u)) {
-			if (u == e.getFrom())
+			if (u == e.getI())
 				excess -= e.getFlow();
 			else
 				excess += e.getFlow();
