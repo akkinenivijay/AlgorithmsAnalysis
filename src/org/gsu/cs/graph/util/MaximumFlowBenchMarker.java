@@ -7,6 +7,11 @@ import org.gsu.cs.graph.Edge;
 import org.gsu.cs.graph.flow.Dinics;
 import org.gsu.cs.graph.flow.EdmondKarps;
 
+/**
+ * Benchmark class for maximum flow algorithms
+ * @author va2839
+ *
+ */
 public class MaximumFlowBenchMarker {
 
 	/**
