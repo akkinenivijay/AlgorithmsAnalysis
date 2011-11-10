@@ -51,7 +51,7 @@ public class Dinics {
 	}
 
 	/**
-	 * DFS implementation to find the layered graph
+	 * DFS implementation to find the layered graph Gl
 	 * 
 	 * @param G
 	 * @param s
