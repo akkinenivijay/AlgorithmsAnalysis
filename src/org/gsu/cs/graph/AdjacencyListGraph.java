@@ -3,6 +3,7 @@ package org.gsu.cs.graph;
 import java.util.Random;
 
 import org.gsu.cs.graph.datatype.GenericLinkedList;
+import org.gsu.cs.graph.flow.Dinics;
 
 /**
  * Graph Representation with a Adjacency List Data Structure
@@ -140,8 +141,12 @@ public class AdjacencyListGraph {
 	}
 
 	public static void main(String[] args) {
-		AdjacencyListGraph G = new AdjacencyListGraph(100, 4000, 1000);
+		AdjacencyListGraph G = new AdjacencyListGraph(10, 22, 100);
+		// AdjacencyListGraph G = new AdjacencyListGraph(4, 5, "");
 		System.out.println(G);
+
+		Dinics dn = new Dinics();
+		dn.execute(G, 0, 9);
 	}
 
 }
