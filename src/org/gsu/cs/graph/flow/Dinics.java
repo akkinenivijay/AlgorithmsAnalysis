@@ -7,6 +7,12 @@ import java.util.Queue;
 import org.gsu.cs.graph.AdjacencyListGraph;
 import org.gsu.cs.graph.Edge;
 
+/**
+ * Dinics algorithm implementation for finding the maximum flow
+ * 
+ * @author va2839
+ * 
+ */
 public class Dinics {
 
 	private int[] distance;
@@ -14,13 +20,18 @@ public class Dinics {
 	private int value;
 
 	/**
-	 * Execute the Ford Fulkerson method
+	 * Execute the Dinics method
 	 * 
 	 * @param G
 	 * @param s
 	 * @param t
 	 */
 	public void execute(AdjacencyListGraph G, int s, int t) {
+		value = excess(G, t);
+		// if (!isFeasible(G, s, t)) {
+		// throw new RuntimeException("Initial flow is infeasible");
+		// }
+
 		int flow = 0;
 
 		// while there exists an augmenting path, use it
@@ -28,7 +39,7 @@ public class Dinics {
 
 			int df = DinicDFS(G, s, t, Integer.MAX_VALUE);
 
-			System.out.println(df);
+			// System.out.println(df);
 			if (df == 0)
 				break;
 			flow += df;
@@ -39,6 +50,15 @@ public class Dinics {
 
 	}
 
+	/**
+	 * DFS implementation to find the layered graph
+	 * 
+	 * @param G
+	 * @param s
+	 * @param t
+	 * @param maxValue
+	 * @return
+	 */
 	private int DinicDFS(AdjacencyListGraph G, int s, int t, int maxValue) {
 		if (maxValue == 0)
 			return 0;
@@ -54,7 +74,6 @@ public class Dinics {
 						edge.residualCapacityTo(edge.getJ()), maxValue));
 				ret = ret + tadd;
 				edge.addResidualFlowTo(edge.other(edge.getI()), tadd);
-				System.out.println(edge);
 				// edge.setCapacity(edge.getCapacity() - tadd);
 				// edge.setFlow(edge.getFlow() + tadd);
 				if (edge.residualCapacityTo(edge.getJ()) == 0)
@@ -74,8 +93,7 @@ public class Dinics {
 	 * @param t
 	 * @return
 	 */
-	public boolean isAugmentingPathPresent(AdjacencyListGraph G, int s,
-			int t) {
+	public boolean isAugmentingPathPresent(AdjacencyListGraph G, int s, int t) {
 		if (s == t)
 			return false;
 		Queue<Integer> queue = new LinkedList<Integer>();

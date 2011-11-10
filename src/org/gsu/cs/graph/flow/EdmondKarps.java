@@ -48,7 +48,8 @@ public class EdmondKarps {
 			// maximum flow in a flow network I am getting not feasible
 			// exceptions from the graph if there is no connecting node form the
 			// source to sink
-			long totalTime = 0;
+			long endmondsTotalTime = 0;
+			long dinicsTotalTime = 0;
 			// while (edges <= ((vertices) * (vertices - 1) / 2)) {
 
 			// //For each combination of n (num of vertices) and m (num of
@@ -62,18 +63,23 @@ public class EdmondKarps {
 
 				EdmondKarps ek = new EdmondKarps();
 
-				// Capturing Start time of the algorithm
 				long startTime = System.nanoTime();
-
 				ek.execute(G, 0, vertices - 1);
-
-				// Endtime of the algorithm
 				long endTime = System.nanoTime();
+				endmondsTotalTime = endmondsTotalTime + (endTime - startTime);
 
-				totalTime = totalTime + (endTime - startTime);
+				System.gc();
+
+				Dinics dinic = new Dinics();
+				startTime = System.nanoTime();
+				dinic.execute(G, 0, vertices - 2);
+				endTime = System.nanoTime();
+
+				dinicsTotalTime = dinicsTotalTime + (endTime - startTime);
 			}
 
-			System.out.println(vertices + "\t" + (totalTime) / 5);
+			System.out.println(vertices + "\t" + (endmondsTotalTime) / 5);
+			System.out.println(vertices + "\t" + (dinicsTotalTime) / 5);
 			// Run garbage collection after the benchmarking is complete
 			System.gc();
 			edges = 2 * edges;
@@ -145,9 +151,9 @@ public class EdmondKarps {
 	 */
 	public void execute(AdjacencyListGraph G, int s, int t) {
 		value = excess(G, t);
-		if (!isFeasible(G, s, t)) {
-			throw new RuntimeException("Initial flow is infeasible");
-		}
+//		if (!isFeasible(G, s, t)) {
+//			throw new RuntimeException("Initial flow is infeasible");
+//		}
 
 		// while there exists an augmenting path, use it
 		while (isAugmentingPathPresent(G, s, t)) {
