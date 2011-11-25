@@ -3,7 +3,7 @@
  */
 package org.gsu.cs.graph.flow;
 
-import java.util.Arrays;
+import java.util.LinkedList;
 
 /**
  * @author Vijay Akkineni
@@ -30,8 +30,20 @@ public class PushRelabelGeneric {
 
 		plg.initializePreFlow();
 
-		System.out.println(plg.excess[plg.source]);
+		// System.out.println(plg.excess[plg.source]);
+		// System.out.println(plg.excess[1]);
+		// System.out.println(plg.capacity[0][1]);
+		// System.out.println(plg.capacity[1][6]);
+
+		plg.relabelToFront();
+
+		System.out.println(plg.excess[0]);
 		System.out.println(plg.excess[1]);
+		System.out.println(plg.excess[2]);
+		System.out.println(plg.excess[3]);
+		System.out.println(plg.excess[4]);
+		System.out.println(plg.excess[5]);
+		System.out.println(plg.excess[6]);
 
 	}
 
@@ -39,7 +51,7 @@ public class PushRelabelGeneric {
 		for (int v = 0; v < graph[source].length; v++) {
 			if (graph[source][v] == 1) {
 				flow[source][v] = capacity[source][v];
-				flow[v][source] = -1 * capacity[v][source];
+				flow[v][source] = -1 * capacity[source][v];
 				excess[v] = capacity[source][v];
 				excess[source] = excess[source] - capacity[source][v];
 				capacity[source][v] = capacity[source][v] - flow[source][v];
@@ -48,7 +60,73 @@ public class PushRelabelGeneric {
 		}
 	}
 
+	public void relabelToFront() {
+		LinkedList<Integer> list = new LinkedList<Integer>();
+		for (int i = 0; i < numOfVertices; i++) {
+			if (!(i == source || i == sink))
+				list.add(i);
+		}
+
+		int u = -1;
+
+		try {
+			u = list.peekFirst();
+			// list.removeFirst();
+			//
+			// headPosition = list.indexOf(u);
+		} catch (Exception e) {
+			u = -1;
+			e.printStackTrace();
+		}
+		while (u != -1) {
+			// System.out.println("u :" + u);
+			int oldHeight = height[u];
+			discharge(u);
+
+			// System.out.println("u :" + u + " oldHeight: " + oldHeight
+			// + " currentHeight: " + height[u]);
+			if (height[u] > oldHeight) {
+				int tempPosition = list.indexOf(u);
+				list.remove(tempPosition);
+				list.addFirst(u);
+			}
+
+			int headPosition = list.indexOf(u);
+
+			try {
+				u = list.get(headPosition + 1);
+			} catch (Exception e) {
+				u = -1;
+				// e.printStackTrace();
+			}
+
+		}
+	}
+
+	public void discharge(int u) {
+		int v = -1;
+		int headOfNeighbours = current[u].peek();
+		int headPosition = current[u].indexOf(headOfNeighbours);
+		while (excess[u] > 0) {
+			try {
+				v = current[u].get(headPosition);
+			} catch (Exception e) {
+				v = -1;
+			}
+			if (v == -1) {
+				relabel(u);
+				int headOfN = current[u].peek();
+				headPosition = current[u].indexOf(headOfN);
+			} else if (capacity[u][v] > 0 && height[u] == height[v] + 1) {
+				push(u, v);
+			} else {
+				headPosition = headPosition + 1;
+			}
+		}
+	}
+
 	public void push(int u, int v) {
+		// System.out.println(u + " : " + v);
 		int temp = Math.min(excess[u], capacity[u][v]);
 		flow[u][v] = flow[u][v] + temp;
 		flow[v][u] = -1 * flow[u][v];
@@ -59,13 +137,26 @@ public class PushRelabelGeneric {
 	}
 
 	public void relabel(int u) {
+		int temp = -1;
+		for (int i = 0; i < graph[u].length; i++) {
+			if (graph[u][i] == 1) {
+				if (capacity[u][i] > 0) {
+					if (temp == -1 || temp > height[i]) {
+						temp = height[i];
+					}
+				}
+			}
+		}
 
+		height[u] = 1 + temp;
 	}
 
 	public void addEdge(int source, int destination, int cap) {
-		capacity[source][destination] = cap;
 		graph[source][destination] = 1;
+		current[source].add(destination);
 		graph[destination][source] = 1;
+		current[destination].add(source);
+		capacity[source][destination] = cap;
 	}
 
 	private int[] height;
@@ -73,10 +164,12 @@ public class PushRelabelGeneric {
 	private int[][] capacity;
 	private int[][] graph;
 	private int[] excess;
+	private LinkedList<Integer>[] current;
 	private int numOfVertices;
 	private int source;
 	private int sink;
 
+	@SuppressWarnings("unchecked")
 	public PushRelabelGeneric(int numOfVertices, int source, int sink) {
 		super();
 		this.numOfVertices = numOfVertices;
@@ -85,6 +178,13 @@ public class PushRelabelGeneric {
 		height = new int[numOfVertices];
 		height[source] = numOfVertices;
 		height[sink] = 0;
+		current = new LinkedList[numOfVertices];
+
+		for (int k = 0; k < current.length; k++) {
+			current[k] = new LinkedList<Integer>();
+		}
+
+		// current[0].add(0);
 
 		flow = new int[numOfVertices][numOfVertices];
 		capacity = new int[numOfVertices][numOfVertices];
@@ -92,8 +192,6 @@ public class PushRelabelGeneric {
 		graph = new int[numOfVertices][numOfVertices];
 
 		initializeGraph();
-
-		System.out.println(graph[numOfVertices - 1][numOfVertices - 1]);
 	}
 
 	private void initializeGraph() {
