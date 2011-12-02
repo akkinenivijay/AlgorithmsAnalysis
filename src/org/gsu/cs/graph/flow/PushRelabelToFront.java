@@ -28,6 +28,7 @@ public class PushRelabelToFront {
 		plg.addEdge(4, 5, 6);
 		plg.addEdge(5, 6, 4);
 
+		
 		plg.initializePreFlow();
 
 		// System.out.println(plg.excess[plg.source]);
