@@ -9,13 +9,13 @@ import java.util.LinkedList;
  * @author Vijay Akkineni
  * 
  */
-public class PushRelabelGeneric {
+public class PushRelabelToFront {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		PushRelabelGeneric plg = new PushRelabelGeneric(7, 0, 6);
+		PushRelabelToFront plg = new PushRelabelToFront(7, 0, 6);
 		plg.addEdge(0, 1, 5);
 		plg.addEdge(0, 2, 10);
 		plg.addEdge(0, 4, 4);
@@ -29,22 +29,13 @@ public class PushRelabelGeneric {
 		plg.addEdge(5, 6, 4);
 
 		plg.initializePreFlow();
-
-		// System.out.println(plg.excess[plg.source]);
-		// System.out.println(plg.excess[1]);
-		// System.out.println(plg.capacity[0][1]);
-		// System.out.println(plg.capacity[1][6]);
-
 		plg.relabelToFront();
 
-		System.out.println(plg.excess[0]);
-		System.out.println(plg.excess[1]);
-		System.out.println(plg.excess[2]);
-		System.out.println(plg.excess[3]);
-		System.out.println(plg.excess[4]);
-		System.out.println(plg.excess[5]);
-		System.out.println(plg.excess[6]);
+	}
 
+	public void execute() {
+		this.initializePreFlow();
+		this.relabelToFront();
 	}
 
 	public void initializePreFlow() {
@@ -170,7 +161,7 @@ public class PushRelabelGeneric {
 	private int sink;
 
 	@SuppressWarnings("unchecked")
-	public PushRelabelGeneric(int numOfVertices, int source, int sink) {
+	public PushRelabelToFront(int numOfVertices, int source, int sink) {
 		super();
 		this.numOfVertices = numOfVertices;
 		this.source = source;

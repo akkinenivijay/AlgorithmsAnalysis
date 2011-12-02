@@ -6,11 +6,13 @@ import org.gsu.cs.graph.AdjacencyListGraph;
 import org.gsu.cs.graph.Edge;
 import org.gsu.cs.graph.flow.Dinics;
 import org.gsu.cs.graph.flow.EdmondKarps;
+import org.gsu.cs.graph.flow.PushRelabelToFront;
 
 /**
  * Benchmark class for maximum flow algorithms
+ * 
  * @author va2839
- *
+ * 
  */
 public class MaximumFlowBenchMarker {
 
@@ -35,6 +37,7 @@ public class MaximumFlowBenchMarker {
 					System.out.print(numberOfEdges / numberOfVertices + "\t");
 					long dinicsTime = 0;
 					long karpsTime = 0;
+					long relabelToFront = 0;
 					for (int repeat = 0; repeat < 5; repeat++) {
 
 						adjacencyMatrix = new int[numberOfVertices][numberOfVertices];
@@ -42,8 +45,11 @@ public class MaximumFlowBenchMarker {
 						AdjacencyListGraph G = new AdjacencyListGraph(
 								numberOfVertices);
 
+						PushRelabelToFront prf = new PushRelabelToFront(
+								numberOfVertices, 0, numberOfVertices - 1);
+
 						populateEdges(random, numberOfVertices, numberOfEdges,
-								G, adjacencyMatrix);
+								G, adjacencyMatrix, prf);
 
 						System.gc();
 
@@ -58,12 +64,19 @@ public class MaximumFlowBenchMarker {
 						EdmondKarps ek = new EdmondKarps();
 						ek.execute(G, 0, numberOfVertices - 1);
 						endTime = System.nanoTime();
-
 						karpsTime = karpsTime + (endTime - startTime);
+
+						startTime = System.nanoTime();
+						prf.execute();
+						ek.execute(G, 0, numberOfVertices - 1);
+						endTime = System.nanoTime();
+
+						relabelToFront = relabelToFront + (endTime - startTime);
 						System.gc();
 
 					}
-					System.out.print(dinicsTime / 5 + "\t" + karpsTime);
+					System.out.print(dinicsTime / 5 + "\t" + karpsTime / 5
+							+ "\t" + relabelToFront / 5);
 					System.out.println();
 				}
 				numberOfEdges = factor * numberOfVertices;
@@ -77,7 +90,8 @@ public class MaximumFlowBenchMarker {
 	}
 
 	private static void populateEdges(Random random, int numberOfVertices,
-			int numberOfEdges, AdjacencyListGraph g, int[][] adjacencyMatrix) {
+			int numberOfEdges, AdjacencyListGraph g, int[][] adjacencyMatrix,
+			PushRelabelToFront prf) {
 
 		for (int i = 0; i < numberOfVertices - 1; i++) {
 			int weight = random.nextInt(1001);
@@ -86,6 +100,7 @@ public class MaximumFlowBenchMarker {
 			}
 			adjacencyMatrix[i][i + 1] = weight;
 			g.addEdge(new Edge(i, i + 1, weight));
+			prf.addEdge(i, i + 1, weight);
 		}
 
 		int index = 0;
@@ -99,6 +114,7 @@ public class MaximumFlowBenchMarker {
 				if (adjacencyMatrix[u][v] == 0) {
 					adjacencyMatrix[u][v] = w;
 					g.addEdge(new Edge(u, v, w));
+					prf.addEdge(u, v, w);
 					validate = false;
 				} else {
 					u = random.nextInt(numberOfVertices);
